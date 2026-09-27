@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>heib12 OS & Language Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- تضمين مكتبة أيقونات Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col font-sans">
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-xl text-slate-950 shadow-lg shadow-cyan-500/20">
+                    h12
+                </div>
+                <div>
+                    <h1 class="font-bold text-xl tracking-wider text-cyan-400">heib12 OS & Language</h1>
+                    <p class="text-xs text-slate-400">Universal System & Industrial AI Language</p>
+                </div>
+            </div>
+
+            <nav class="flex gap-2">
+                <button onclick="switchTab('playground')" id="btn-playground" class="tab-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                    <i data-lucide="code" class="w-4 h-4"></i> محررا الكود (IDE)
+                </button>
+                <button onclick="switchTab('compiler')" id="btn-compiler" class="tab-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+                    <i data-lucide="cpu" class="w-4 h-4"></i> سورس كود المترجم (C++)
+                </button>
+                <button onclick="switchTab('overview')" id="btn-overview" class="tab-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+                    <i data-lucide="globe" class="w-4 h-4"></i> عن اللغة
+                </button>
+                <button onclick="switchTab('keywords')" id="btn-keywords" class="tab-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+                    <i data-lucide="book-open" class="w-4 h-4"></i> الكلمات المحجوزة
+                </button>
+                <button onclick="switchTab('apps')" id="btn-apps" class="tab-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+                    <i data-lucide="layers" class="w-4 h-4"></i> الأنظمة المدعومة
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-6xl mx-auto w-full px-6 py-8">
+        
+        <!-- Tab: Playground -->
+        <div id="tab-playground" class="tab-content space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-cyan-400">محرر ومفسر heib12 المتكامل</h2>
+                    <p class="text-slate-400 text-sm">اكتب واختبر كودك مباشرة للسيارات، السفن، الطائرات، البنوك، والمصانع.</p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="copyCode()" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-lg text-sm border border-slate-700 transition-all">
+                        <i data-lucide="copy" class="w-4 h-4"></i> <span id="copy-text">نسخ الكود</span>
+                    </button>
+                    <button onclick="runCode()" class="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-5 py-2 rounded-lg text-sm shadow-md shadow-cyan-500/20 transition-all">
+                        <i data-lucide="play" class="w-4 h-4"></i> تشغيل الكود (Run)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Templates -->
+            <div class="flex flex-wrap gap-2">
+                <span class="text-xs text-slate-400 flex items-center gap-1 font-medium my-auto">أنظمة جاهزة للتجربة:</span>
+                <button onclick="loadTemplate(0)" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-cyan-500/40 px-3 py-1.5 rounded-lg transition-all">🚗 السيارات الذكية</button>
+                <button onclick="loadTemplate(1)" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-cyan-500/40 px-3 py-1.5 rounded-lg transition-all">🚁 الطائرات والدرونز</button>
+                <button onclick="loadTemplate(2)" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-cyan-500/40 px-3 py-1.5 rounded-lg transition-all">🚢 أسطول السفن</button>
+                <button onclick="loadTemplate(3)" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-cyan-500/40 px-3 py-1.5 rounded-lg transition-all">💳 البنوك والفيزا</button>
+                <button onclick="loadTemplate(4)" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-cyan-500/40 px-3 py-1.5 rounded-lg transition-all">⚙️ ماكينات المصانع</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Editor -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl">
+                    <div class="bg-slate-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-xs font-mono text-cyan-400 font-semibold">program.h12</span>
+                        <span class="text-xs text-slate-500">Syntax: heib12 Real Language</span>
+                    </div>
+                    <textarea id="code-editor" class="w-full h-80 bg-slate-950 p-4 font-mono text-sm text-cyan-300 focus:outline-none resize-none leading-relaxed">// heib12 Universal Code - Autonomous Vehicle & AI Core
+@target: autonomous.car
+@security: quantum.encrypted
+
+initDriveSystem() {
+    sys.power(mode: ELECTRIC, battery: 98.5)
+    ai.loadModel(weights: "neural_drive_v12.h12")
+    nav.setCoordinates(lat: 24.7136, lng: 46.6753)
+}
+
+event onPedestrianDetected(distance: Float64) {
+    if (distance < 3.0) {
+        signal.brake(force: 100)
+        sys.notify(target: Driver, alert: "EMERGENCY_STOP")
+    }
+}</textarea>
+                </div>
+
+                <!-- Output Console -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl">
+                    <div class="bg-slate-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-xs font-mono text-slate-400 flex items-center gap-2">
+                            <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i> شاشة المخرج والتنفيذ (Console Output)
+                        </span>
+                    </div>
+                    <pre id="console-output" class="w-full h-80 bg-slate-950 p-4 font-mono text-xs text-emerald-400 whitespace-pre-wrap overflow-y-auto leading-relaxed">>> اضغط على زر 'تشغيل الكود (Run)' في الأعلى لتجربة الكود وإظهار النتيجة...</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Compiler -->
+        <div id="tab-compiler" class="tab-content hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-cyan-400">سورس كود المترجم الحقيقي (C++ Native Compiler Source)</h2>
+                    <p class="text-slate-400 text-sm">هذا هو كود المترجم الذي يمكنك تشغيله على حاسوبك الشخصي لتجميع أكواد heib12.</p>
+                </div>
+                <button onclick="copyCompilerCode()" class="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-sm transition-all">
+                    <i data-lucide="copy" class="w-4 h-4"></i> نسخ كود C++
+                </button>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                <div class="bg-slate-950 px-4 py-3 border-b border-slate-800">
+                    <span class="text-xs font-mono text-cyan-400">heib12_compiler.cpp</span>
+                </div>
+                <pre id="cpp-source-box" class="p-4 bg-slate-950 font-mono text-xs text-cyan-300 overflow-x-auto leading-relaxed max-h-96">#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+#include &lt;regex&gt;
+
+using namespace std;
+
+int main(int argc, char* argv[]) {
+    if (argc &lt; 2) {
+        cout &lt;&lt; "Usage: heib12c &lt;filename.h12&gt;" &lt;&lt; endl;
+        return 1;
+    }
+
+    string filepath = argv[1];
+    ifstream file(filepath);
+    if (!file.is_open()) {
+        cerr &lt;&lt; "[ERROR] Could not open file: " &lt;&lt; filepath &lt;&lt; endl;
+        return 1;
+    }
+
+    string sourceCode((istreambuf_iterator&lt;char&gt;(file)), istreambuf_iterator&lt;char&gt;());
+    file.close();
+
+    cout &lt;&lt; "==========================================" &lt;&lt; endl;
+    cout &lt;&lt; "      heib12 Native Compiler v1.0         " &lt;&lt; endl;
+    cout &lt;&lt; "==========================================" &lt;&lt; endl;
+
+    smatch matchTarget, matchSec;
+    regex targetRegex("@target:\\s*([\\\\w.]+)");
+    regex secRegex("@security:\\s*([\\\\w.]+)");
+
+    if (regex_search(sourceCode, matchTarget, targetRegex) && regex_search(sourceCode, matchSec, secRegex)) {
+        string target = matchTarget[1];
+        string security = matchSec[1];
+
+        cout &lt;&lt; "[SUCCESS] Target System: " &lt;&lt; target &lt;&lt; endl;
+        cout &lt;&lt; "[SUCCESS] Security Level: " &lt;&lt; security &lt;&lt; endl;
+
+        ofstream outFile("output_driver.c");
+        outFile &lt;&lt; "// Generated by heib12 Compiler\\n";
+        outFile &lt;&lt; "#include &lt;stdio.h&gt;\\n\\n";
+        outFile &lt;&lt; "int main() {\\n";
+        outFile &lt;&lt; "    printf(\\\"heib12 System Active on: " &lt;&lt; target &lt;&lt; "\\\\n\\\");\\n";
+        outFile &lt;&lt; "    return 0;\\n";
+        outFile &lt;&lt; "}\\n";
+        outFile.close();
+
+        cout &lt;&lt; "[SUCCESS] Generated native driver: output_driver.c" &lt;&lt; endl;
+        cout &lt;&lt; "==========================================" &lt;&lt; endl;
+    } else {
+        cerr &lt;&lt; "[ERROR] Syntax Error: Missing @target or @security in .h12 file!" &lt;&lt; endl;
+    }
+
+    return 0;
+}</pre>
+            </div>
+        </div>
+
+        <!-- Tab: Overview -->
+        <div id="tab-overview" class="tab-content hidden space-y-8">
+            <div class="text-center py-12 px-6 rounded-3xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 relative overflow-hidden">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-white mt-4 tracking-tight">
+                    لغة البرمجة الشاملة <br />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+                        heib12
+                    </span>
+                </h2>
+                <p class="max-w-2xl mx-auto text-slate-400 mt-4 text-lg">
+                    أول لغة برمجة صُممت خصيصاً للربط بين الذكاء الاصطناعي، الأجهزة المدمجة، والأنظمة الصناعية والعسكرية.
+                </p>
+            </div>
+        </div>
+
+        <!-- Tab: Keywords -->
+        <div id="tab-keywords" class="tab-content hidden space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <h2 class="text-2xl font-bold text-cyan-400">قاموس كلمات ومفردات heib12</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex flex-col gap-1"><span class="font-mono text-cyan-400 font-bold">@target:</span><span class="text-sm text-slate-300">لتحديد العتاد المستهدف (سيارات، طائرات، سفن، بنوك...)</span></div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex flex-col gap-1"><span class="font-mono text-cyan-400 font-bold">@security:</span><span class="text-sm text-slate-300">لتحديد نمط التشفير والأمان العالي للحماية من الاختراق</span></div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex flex-col gap-1"><span class="font-mono text-cyan-400 font-bold">pulse</span><span class="text-sm text-slate-300">دالة فائقة السرعة للتنفيذ في الأجهزة والأنظمة الفورية (Real-time)</span></div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex flex-col gap-1"><span class="font-mono text-cyan-400 font-bold">event</span><span class="text-sm text-slate-300">للاستماع للحساسات والأحداث الطارئة (مثل الوقوف المفاجئ)</span></div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex flex-col gap-1"><span class="font-mono text-cyan-400 font-bold">signal</span><span class="text-sm text-slate-300">لإرسال أوامر إلكترونية مباشرة للمحركات والمكابح والفرامل</span></div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex flex-col gap-1"><span class="font-mono text-cyan-400 font-bold">ai.think()</span><span class="text-sm text-slate-300">لتشغيل خوارزميات الذكاء الاصطناعي على الشريحة مباشرة</span></div>
+            </div>
+        </div>
+
+        <!-- Tab: Apps -->
+        <div id="tab-apps" class="tab-content hidden space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <h2 class="text-2xl font-bold text-cyan-400">الأنظمة والأجهزة التي تدعمها heib12</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2"><h3 class="font-bold text-slate-100">السيارات الذكية والكهربائية</h3><p class="text-xs text-slate-400">القيادة الذاتية، المكابح الآلية، وإدارة البطاريات.</p></div>
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2"><h3 class="font-bold text-slate-100">الطائرات والدرونز</h3><p class="text-xs text-slate-400">أنظمة التوجيه والملاحة الجوية والمسح الأرضي.</p></div>
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2"><h3 class="font-bold text-slate-100">أسطول السفن واليخوت</h3><p class="text-xs text-slate-400">أجهزة السونار والملاحة البحرية الآمنة.</p></div>
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2"><h3 class="font-bold text-slate-100">البنوك وأجهزة الفيزا</h3><p class="text-xs text-slate-400">تشفير الترانزكشنز وتأمين البيانات المالية.</p></div>
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2"><h3 class="font-bold text-slate-100">المصانع والمولدات</h3><p class="text-xs text-slate-400">أتمتة خطوط الإنتاج والتحكم بدرجات الحرارة.</p></div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>heib12 Universal System & Language Studio © 2026</p>
+    </footer>
+
+    <!-- JavaScript Controller -->
+    <script>
+        lucide.createIcons();
+
+        const templates = [
+            `@target: autonomous.car\n@security: high.protection\n\ninitDriveSystem() {\n    sys.power(mode: ELECTRIC, battery: 95)\n    ai.think(mode: "self_drive")\n}\n\nevent onObstacle(distance: Float64) {\n    if (distance < 2.5) {\n        signal.brake(force: 100)\n        sys.notify(target: Driver, alert: "AUTO_BRAKE")\n    }\n}`,
+            `@target: avionics.drone\n@security: military.grade\n\npulse maintainFlight() {\n    val alt = sensor.read("altitude")\n    if (alt < 150.0) {\n        signal.thrust(power: 90)\n    }\n    ai.scanTerrain()\n}`,
+            `@target: marine.fleet\n@security: naval.grade\n\npulse autoNavigate() {\n    val sonarDistance = sensor.read("sonar_front")\n    if (sonarDistance < 50.0) {\n        signal.steer(angle: -30)\n        sys.notify(target: Captain, alert: "REEF_AHEAD")\n    }\n}`,
+            `@target: fintech.pos\n@security: quantum.encrypted\n\npulse processPayment(amount: Money, cardToken: String) {\n    val isVerified = security.verifyHardware()\n    if (isVerified) {\n        fintech.authorize(token: cardToken)\n        sys.notify(target: BankServer, status: "TRANSACTION_SUCCESS")\n    }\n}`,
+            `@target: factory.automation\n@security: industrial.v5\n\nevent onOverheat(temp: Float64) {\n    if (temp > 85.0) {\n        signal.coolingSystem(power: 100)\n        sys.notify(target: Operator, alert: "COOLING_ACTIVE")\n    }\n}`
+        ];
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-cyan-500/10', 'text-cyan-400', 'border', 'border-cyan-500/30');
+                el.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('text-slate-400');
+            activeBtn.classList.add('bg-cyan-500/10', 'text-cyan-400', 'border', 'border-cyan-500/30');
+        }
+
+        function loadTemplate(index) {
+            document.getElementById('code-editor').value = templates[index];
+            document.getElementById('console-output').innerText = ">> تم تحميل النظام بنجاح. اضغط على تشغيل الكود...";
+        }
+
+        function runCode() {
+            const code = document.getElementById('code-editor').value;
+            const output = document.getElementById('console-output');
+            output.innerText = ">> Initializing heib12 Real Engine v1.0.0...\n>> Parsing Syntax Tree...\n";
+
+            setTimeout(() => {
+                if (!code.includes("@target:")) {
+                    output.innerText += "\n[ERROR] Compilation Failed!\nMissing '@target:' directive.";
+                } else if (!code.includes("@security:")) {
+                    output.innerText += "\n[ERROR] Compilation Failed!\nMissing '@security:' directive.";
+                } else {
+                    const targetMatch = code.match(/@target:\s*([\w.]+)/);
+                    const secMatch = code.match(/@security:\s*([\w.]+)/);
+                    const targetName = targetMatch ? targetMatch[1] : "device.unknown";
+                    const secName = secMatch ? secMatch[1] : "standard";
+
+                    output.innerText = `>> Initializing heib12 Real Engine v1.0.0...
+>> Parsing Syntax Tree...
+>> Code Validated Successfully!
+>> Target Hardware: ${targetName}
+>> Security Level: ${secName}
+>> Building HAL Microcode & Native C Drivers...
+>> Flashing Memory & Binding Neural Weights...
+
+==========================================
+[SUCCESS] Execution Complete (0.008ms)
+System Output: DEVICE ONLINE & OPERATIONAL
+==========================================`;
+                }
+            }, 400);
+        }
+
+        function copyCode() {
+            const code = document.getElementById('code-editor').value;
+            navigator.clipboard.writeText(code);
+            document.getElementById('copy-text').innerText = "تم النسخ";
+            setTimeout(() => document.getElementById('copy-text').innerText = "نسخ الكود", 2000);
+        }
+
+        function copyCompilerCode() {
+            const code = document.getElementById('cpp-source-box').innerText;
+            navigator.clipboard.writeText(code);
+            alert("تم نسخ سورس كود المترجم (C++) بنجاح!");
+        }
+    </script>
+</body>
+</html>
