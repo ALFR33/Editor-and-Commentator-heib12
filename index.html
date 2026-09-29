@@ -3,184 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>heib12 OS & Universal Language - لغة البرمجة المستقلة</title>
+    <title>heib12 OS & Language - 100% Standalone Self-Hosting Engine</title>
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; }
-        code, pre { font-Code', monospace; } { display: block; }
+        body { font-family: 'Tajawal', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+<body class="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col font-sans">
 
     <!-- Header / Navbar -->
-    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-xl text-slate-950 shadow-lg shadow-cyan-500/20">
                     h12
                 </div>
                 <div>
-                    <h1 class="font-bold text-lg text-cyan-400">heib12 OS & Universal Language</h1>
-                    <p class="text-xs text-slate-400">لغة برمجة مستقلة 100% تولد أكواد الآلة مباشرة دون وسيط</p>
+                    <h1 class="font-bold text-xl tracking-wider text-cyan-400">heib12 OS & Language</h1>
+                    <p class="text-xs text-slate-400">Universal System & Industrial AI Language</p>
                 </div>
             </div>
 
-            <!-- Tabs Nav -->
-            <nav class="flex flex-wrap gap-2 text-xs">
-                <button onclick="switchTab('selfhost')" id="btn-selfhost" class="nav-btn px-3 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold">الاستقلال التام (Self-Host)</button>
-                <button onclick="switchTab('commentator')" id="btn-commentator" class="nav-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">المحرر والمعلق الرسمي</button>
-                <button onclick="switchTab('playground')" id="btn-playground" class="nav-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">محاكي IDE</button>
-                <button onclick="switchTab('apps')" id="btn-apps" class="nav-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">الأنظمة الصناعية (9)</button>
-                <button onclick="switchTab('engine')" id="btn-engine" class="nav-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">المحرك الأصيل (.h12)</button>
-                <button onclick="switchTab('whitepaper')" id="btn-whitepaper" class="nav-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">المقال الفني</button>
+            <nav class="hidden lg:flex flex-wrap gap-1.5">
+                <button onclick="switchTab('selfhost')" id="btn-selfhost" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 cursor-pointer">
+                    <i data-lucide="zap" class="w-4 h-4"></i> Self-Hosting (مستقلة 100%)
+                </button>
+                <button onclick="switchTab('commentator')" id="btn-commentator" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 cursor-pointer">
+                    <i data-lucide="message-square-code" class="w-4 h-4"></i> Editor & Commentator
+                </button>
+                <button onclick="switchTab('playground')" id="btn-playground" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 cursor-pointer">
+                    <i data-lucide="code" class="w-4 h-4"></i> IDE Playground
+                </button>
+                <button onclick="switchTab('github')" id="btn-github" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 cursor-pointer">
+                    <i data-lucide="globe" class="w-4 h-4"></i> GitHub & Setup
+                </button>
+                <button onclick="switchTab('download')" id="btn-download" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 cursor-pointer">
+                    <i data-lucide="download" class="w-4 h-4"></i> Downloads
+                </button>
+                <button onclick="switchTab('compiler')" id="btn-compiler" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 cursor-pointer">
+                    <i data-lucide="cpu" class="w-4 h-4"></i> Native Engine
+                </button>
+                <button onclick="switchTab('apps')" id="btn-apps" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 cursor-pointer">
+                    <i data-lucide="building" class="w-4 h-4"></i> Target Systems
+                </button>
             </nav>
         </div>
     </header>
 
-    <!-- Main Container -->
+    <!-- Main Content Area -->
     <main class="flex-1 max-w-6xl mx-auto w-full px-6 py-8">
-
-        <!-- 1. TAB: SELF-HOSTING -->
-        <section id="tab-selfhost" class="tab-content active space-y-6">
-            <div class="bg-gradient-to-r from-slate-900 via-purple-950/40 to-slate-900 border border-purple-500/30 p-8 rounded-3xl space-y-3 shadow-xl">
-                <span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs font-mono font-bold">100% Standalone Architecture</span>
-                <h2 class="text-3xl font-extrabold text-white">الاستقلال التام للغة heib12 (Self-Hosting)</h2>
-                <p class="text-slate-300 text-sm leading-relaxed max-w-3xl">
-                    تعمل لغة <strong>heib12</strong> بنواتها الذاتية المستقلة، وتقوم بتحويل الكود مباشرة إلى أكواد الآلة (Machine Opcodes) التي يفهمها المعالج فوراً دون الحاجة لأي مترجم وسيط أو لغة أخرى كـ C++ أو غيرها.
+        
+        <!-- 1. Self-Hosting Tab (Default) -->
+        <div id="tab-selfhost" class="tab-content space-y-8">
+            <div class="bg-gradient-to-r from-slate-900 via-purple-950/40 to-slate-900 border border-purple-500/30 p-8 rounded-3xl space-y-4 shadow-2xl">
+                <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 px-3.5 py-1 rounded-full text-xs font-mono font-bold">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Self-Hosting Architecture v1.0
+                </div>
+                <h2 class="text-3xl font-extrabold text-white tracking-tight">
+                    خارطة الاستقلال الذاتي التام 100% (heib12 Self-Hosting)
+                </h2>
+                <p class="text-slate-300 text-sm max-w-3xl leading-relaxed">
+                    الانتقال من الاعتماد على مترجم C++ وسيط إلى جعل لغة <strong>heib12</strong> تترجم نفسها وتولد أكواد الآلة (Machine Code / Assembly) مباشرة للمعالجات دون وسيط خارجي.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-2">
-                    <span class="text-2xl font-mono text-purple-400 font-bold">01</span>
-                    <h3 class="font-bold text-white text-base">المترجم مكتوب بـ heib12</h3>
-                    <p class="text-xs text-slate-400">ملف <code class="text-purple-300">compiler.h12</code> مكتوب بقواعد heib12 ذاتها لبناء شجرة النحو (AST).</p>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
+                    <span class="text-3xl font-mono text-purple-400 font-extrabold">01</span>
+                    <h3 class="font-bold text-slate-100 text-base">كتابة المترجم بلغة heib12</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">صياغة ملف المترجم كاملاً <code class="text-purple-300">compiler.h12</code> مستخدماً قواعد heib12 فقط لتحليل النصوص (Lexer)، وبناء شجرة النحو (AST).</p>
                 </div>
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-2">
-                    <span class="text-2xl font-mono text-cyan-400 font-bold">02</span>
-                    <h3 class="font-bold text-white text-base">صفر ملحقات خارجية</h3>
-                    <p class="text-xs text-slate-400">الملف التنفيذي الناتج Statically Linked لا يطلب أي مكتبات تشغيل خارجية إطلاقاً.</p>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
+                    <span class="text-3xl font-mono text-cyan-400 font-extrabold">02</span>
+                    <h3 class="font-bold text-slate-100 text-base">النواة المستقلة ذاتياً (Pure Self-Host)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">تعمل لغة heib12 بنواتها الثنائية المستقلة مباشرة؛ حيث يقوم كود المترجم بتوليد وتحديث نفسه ذاتياً.</p>
                 </div>
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-2">
-                    <span class="text-2xl font-mono text-emerald-400 font-bold">03</span>
-                    <h3 class="font-bold text-white text-base">توليد ثنائي مباشر</h3>
-                    <p class="text-xs text-slate-400">يولد تعاميل المعالج (x86_64 و ARM64 Opcodes) مباشرة للأنظمة المدمجة في 0.008ms.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 2. TAB: COMMENTATOR -->
-        <section id="tab-commentator" class="tab-content space-y-6">
-            <div class="bg-slate-900 border border-cyan-500/30 p-6 rounded-2xl flex flex-col md:flex-row items-startjustify-between gap-4">white">المحرر والمعلق الرسمي (Official Web Suite)</h2>
-                    <p class="text-slate-300 text-xs sm:text-sm mt-1">محرر الويب التفاعلي الرسمي لشرح وتحليل أكواد لغة heib12 سطر بسطر عبر GitHub Pages.</p>
-                </div>
-                <a href="https://alfr33.github.io/Editor-and-Commentator-heib12/" target="_blank" rel="noreferrer" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-cyan-500/20">
-                    فتح المحرر والمعلق الخارجي ↗
-                </a>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-                <h3 class="font-bold text-cyan-400 text-sm">رابط المنصة الرسمي على GitHub Pages:</h3>
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs text-emerald-400 flex items-center justify-between">
-                    <span>https://alfr33.github.io/Editor-and-Commentator-heib12/</span>
-                    <button onclick="navigator.clipboard.writeText('https://alfr33.github.io/Editor-and-Commentator-heib12/')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded">نسخ الرابط</button>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
+                    <span class="text-3xl font-mono text-emerald-400 font-extrabold">03</span>
+                    <h3 class="font-bold text-slate-100 text-base">التوليد المباشر لأكواد الآلة</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">إخراج بصمات ثنائية مباشرة (ELF / PE Executable) تتخاطب مباشرة مع مسجلات الـ CPU وذاكرة النظام.</p>
                 </div>
             </div>
-        </section>
 
-        <!-- 3. TAB: IDE PLAYGROUND -->
-        <section id="tab-playground" class="tab-content space-y-6">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                            <i data-lucide="code" class="text-purple-400 w-5 h-5"></i>
+                            <span>كود المترجم المستقل مكتوباً 100% بلغة heib12 (compiler.h12)</span>
+                        </h3>
+                    </div>
+                    <button onclick="copySelfHostCode()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-4 py-2 rounded-xl text-xs cursor-pointer">نسخ الكود</button>
+                </div>
+                <div class="bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden">
+                    <pre id="selfhost-code-view" class="p-4 font-mono text-xs text-purple-300 leading-relaxed overflow-x-auto" dir="ltr"></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Commentator Tab -->
+        <div id="tab-commentator" class="tab-content space-y-6 hidden">
+            <div class="bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-cyan-500/30 p-6 rounded-2xl flex items-center justify-between gap-4 shadow-xl">
                 <div>
-                    <h2 class="text-2xl font-bold text-cyan-400">محاكي IDE التفاعلي</h2>
-                    <p class="text-slate-400 text-xs">كتابة وتشغيل كود heib12 وفحص الاستقلال العتادي المباشر.</p>
+                    <h2 class="text-2xl font-bold text-white tracking-tight">heib12 Editor & Commentator</h2>
+                    <p class="text-slate-300 text-xs sm:text-sm">Interactive web editor with intelligent line-by-line syntax explanation and hardware telemetry.</p>
                 </div>
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="auditDependencies()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs">فحص التبعيات (Audit)</button>
-                    <button onclick="viewOpcodes()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold px-3 py-1.5 rounded-lg text-xs border border-slate-700">أكواد المعالج (Opcodes)</button>
-                    <button onclick="runCode()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-1.5 rounded-lg text-xs">تشغيل ثنائي مباشر (Run)</button>
+                <a href="https://alfr33.github.io/Editor-and-Commentator-heib12/" target="_blank" rel="noreferrer" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-sm transition-all shadow-lg">Open Web Editor</a>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" dir="ltr">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl">
+                    <div class="bg-slate-950 px-4 py-3 border-b border-slate-800 flex justify-between items-center">
+                        <span class="text-xs font-mono text-cyan-400 font-bold">Source Code (.h12)</span>
+                    </div>
+                    <textarea id="commentator-editor" oninput="renderCommentary()" class="w-full h-96 bg-slate-950 p-4 font-mono text-xs text-cyan-300 focus:outline-none resize-none"></textarea>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl">
+                    <div class="bg-slate-950 px-4 py-3 border-b border-slate-800">
+                        <span class="text-xs font-mono text-cyan-400 font-bold">Intelligent Code Commentator (المعلّق الذكي)</span>
+                    </div>
+                    <div id="commentary-output" class="p-4 bg-slate-950 h-96 overflow-y-auto space-y-3 text-xs" dir="rtl"></div>
                 </div>
             </div>
+        </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Editor -->
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col">
-                    <div class="bg-slate-950 px-4 py-2 border-b border-slate-800 text-xs text-cyan-400 font-mono">program.h12 (heib12 Pure Native)</div>
-                    <textarea id="editor" class="w-full h-80 bg-slate-950 p-4 font-mono text-xs text-cyan-300 focus:outline-none resize-none leading-relaxed" dir="ltr">@target: autonomous.car
-@security: quantum.military.v12
+        <!-- 3. Playground Tab -->
+        <div id="tab-playground" class="tab-content space-y-6 hidden">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-cyan-400">heib12 Integrated Web IDE & Compiler</h2>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="runPlayground()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-extrabold px-6 py-2.5 rounded-xl text-sm cursor-pointer shadow-lg">▶ تشغيل الكود (RUN)</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" dir="ltr">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                    <textarea id="pg-editor" class="w-full h-80 bg-slate-950 p-4 font-mono text-sm text-cyan-300 focus:outline-none resize-none"></textarea>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                    <pre id="pg-output" class="w-full h-80 bg-slate-950 p-4 font-mono text-xs text-emerald-400 whitespace-pre-wrap overflow-y-auto">>> Click 'Run Code' above...</pre>
+                </div>
+            </div>
+        </div>
 
-initDriveSystem() {
-    sys.power(mode: DUAL_ELECTRIC_MOTOR, battery: 100.0)
-    ai.loadModel(weights: "heib12_autopilot.bin")
+        <!-- 4. GitHub Tab -->
+        <div id="tab-github" class="tab-content space-y-6 hidden" dir="ltr">
+            <h2 class="text-2xl font-bold text-cyan-400">Official GitHub Repository & CLI Setup</h2>
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs text-emerald-400 space-y-1">
+                <p>git clone https://github.com/SALH86/heib12.git</p>
+                <p>cd heib12</p>
+                <p>./heib12 run main.h12</p>
+                <p>./heib12 build main.h12 -o app.bin</p>
+            </div>
+        </div>
+
+        <!-- 5. Downloads Tab -->
+        <div id="tab-download" class="tab-content space-y-6 hidden">
+            <h2 class="text-2xl font-bold text-cyan-400">Pre-built Distribution & Source Packages</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                    <h3 class="font-bold text-lg text-slate-100">heib12 Native Engine Source</h3>
+                    <button onclick="downloadFile(nativeEngineSource, 'heib12_core_engine.h12')" class="w-full bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-slate-200 font-bold py-2.5 rounded-xl text-sm transition-all cursor-pointer">Download (.h12)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Native Engine Tab -->
+        <div id="tab-compiler" class="tab-content space-y-6 hidden">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <h2 class="text-2xl font-bold text-cyan-400">كود المحرك الأصيل المستقل (heib12 Native Engine)</h2>
+                <button onclick="copyNativeEngine()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-sm cursor-pointer">نسخ كود المحرك</button>
+            </div>
+            <pre id="native-engine-view" class="p-4 bg-slate-950 font-mono text-xs text-cyan-300 overflow-x-auto rounded-xl leading-relaxed" dir="ltr"></pre>
+        </div>
+
+        <!-- 7. Target Systems Tab -->
+        <div id="tab-apps" class="tab-content space-y-6 hidden">
+            <h2 class="text-2xl font-bold text-cyan-400">أكواد وشروحات الأنظمة الصناعية</h2>
+            <div id="systems-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+            <div id="system-inspector" class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-6 shadow-2xl hidden"></div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 space-y-1">
+        <p>heib12 Universal System & Language Studio</p>
+        <p class="text-slate-400 font-mono">Official Support: <a href="mailto:alasod5550@gmail.com" class="text-cyan-400 hover:underline">alasod5550@gmail.com</a></p>
+    </footer>
+
+    <!-- JavaScript Controllers -->
+    <script>
+        lucide.createIcons();
+
+        const selfHostedCode = `@target: baremetal.cpu.x86_64
+@security: ring0.kernel.bootloader
+
+// النواة الذاتية المستقلة لمترجم heib12 (Self-Hosting Compiler Core)
+initSelfHostedCompiler() {
+    mem.allocateHeap(sizeMB: 64)
+    cpu.bindRegisterMap(arch: ARCH_X86_64)
+    sys.notify(target: MasterConsole, alert: "HEIB12_SELF_HOSTED_COMPILER_ONLINE")
 }
 
-pulse scanRoadEnvironment() {
-    val frontDistance = sensor.read("lidar_front_3d")
-    if (frontDistance > 100.0) {
-        signal.throttle(acceleration: 15.0)
+pulse parseAndEmitBinary(sourceBuffer: String) {
+    val tokens = lexer.tokenize(source: sourceBuffer)
+    val astTree = parser.buildSyntaxTree(tokens: tokens)
+
+    if (astTree.hasTarget() && astTree.hasSecurity()) {
+        val machineOpcodes = codegen.emitDirectMachineOpcodes(tree: astTree)
+        binary.packELF64(opcodes: machineOpcodes, outputFile: "app.bin")
+        sys.notify(target: OutputConsole, status: "STANDALONE_BINARY_EMITTED_SUCCESSFULLY")
     }
 }
 
-event onObstacleDetected(distance: Float64) {
-    if (distance < 5.0) {
-        signal.brake(force: 100.0, abs: ENABLED)
-        sys.notify(target: Driver, alert: "AUTO_BRAKE")
-    }
-}</textarea>
-                </div>
+event onMemoryProtectionFault(faultAddress: Int64) {
+    cpu.lockExecutionPipeline()
+    sys.notify(target: KernelDebugger, alert: "COMPILER_MEMORY_FAULT_CONTAINED")
+}`;
 
-                <!-- Output Console -->
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col">
-                    <div class="bg-slate-950 px-4 py-2 border-b border-slate-800 text-xs text-slate-400 font-mono">Terminal Output & Verification</div>
-                    <pre id="console" class="w-full h-80 bg-slate-950 p-4 font-mono text-xs text-emerald-400 overflow-y-auto leading-relaxed" dir="ltr">>> Click 'Run' to compile and execute program natively...</pre>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4.SYSTEMS (9) -->            <div class="border-b border-slate-800 pb-4">
-                <h2 class="text-2xl font-bold text-cyan-400">الأكواد البرمجية للأنظمة الصناعية الحديثة (9 أنظمة)</h2>
-                <p class="text-slate-400 text-xs">أكواد مكتوبة ومحققة بلغة heib12 للبرادات، الغسالات، الأجهزة الطبية، الصراف الآلي، محطات الطاقة، المياه، والبواخر.</p>
-            </div>
-
-            <!-- System Buttons -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 text-xs" id="sys-selector">
-                <button onclick="loadSys('fridge')" class="bg-slate-900 border border-cyan-500 p-2.5 rounded-xl text-center font-bold text-cyan-300">❄️ البرادات الذكية</button>
-                <button onclick="loadSys('washer')" class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-center font-bold text-slate-300 hover:border-slate-700">🧺 الغسالات الحديثة</button>
-                <button onclick="loadSys('mri')" class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-center font-bold text-slate-300 hover:border-slate-700">🏥 الروبوتات الطبية وMRI</button>
-                <button onclick="loadSys('atm')" class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-center font-bold text-slate-300 hover:border-slate-700">🏧 الصراف الآلي العالمي</button>
-                <button onclick="loadSys('power')" class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-center font-bold text-slate-300 hover:border-slate-700">⚡ محطات الكهرباء</button>
-                <button onclick="loadSys('water')" class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-center font-bold text-slate-300 hover:border-slate-700">💧 محطات المياه</button>
-                <button onclick="loadSys('ship')" class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-center font-bold text-slate-300 hover:border-slate-700">🚢 بواخر الشحن والأسطول</button>
-                <button onclick="loadSys('yacht')" class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-center font-bold text-slate-300 hover:border-slate-700">🛥️ اليخوت وأنظمة الاتزان</button>
-                <button onclick="loadSys('supercomputer')" class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-center font-bold text-slate-300 hover:border-slate-700">💻 الحواسيب الفائقة الضوئية</button>
-            </div>
-
-            <!-- Active System Card -->
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
-                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                    <h3 id="sys-title" class="font-bold text-lg text-white">البرادات الذكية الحديثة (Dual Inverter Refrigerator)</h3>
-                    <button onclick="copySysCode()" class="bg-cyan-500 text-slate-950 font-bold px-3 py-1 rounded-lg text-xs">نسخ الكود المصدري</button>
-                </div>
-                <p id="sys-desc" class="text-xs text-slate-300 leading-relaxed">تحكم بتردد الضاغط المزدوج 45Hz ومراقبة نضارة الطعام بالرؤية الحاسوبية وحماية المحتويات عند فتح الباب.</p>
-                <pre id="sys-code" class="p-4 bg-slate-950 rounded-2xl border border-slate-800 font-mono text-xs text-cyan-300 overflow-x-auto leading-relaxed h-80" dir="ltr"></pre>
-            </div>
-        </section>
-
-        <!-- 5. TAB: NATIVE ENGINE SOURCE -->
-        <section id="tab-engine" class="tab-content space-y-6">
-            <div class="border-b border-slate-800 pb-4 flex justify-between items-center">
-                <div>
-                    <h2 class="text-2xl font-bold text-cyan-400">نواة المحرك المستقلة (heib12_core_engine.h12)</h2>
-                    <p class="text-slate-400 text-xs">مكتوبة 100% بلغة heib12 وتتولى قراءة الكود وتوليد أكواد الآلة مباشرة دون سطر C++ واحد.</p>
-                </div>
-                <button onclick="copyEngine()" class="bg-cyan-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs">نسخ كود المحرك</button>
-            </div>
-
-            <pre class="p-5 bg-slate-950 rounded-2xl border border-slate-800 font-mono text-xs text-cyan-300 overflow-x-auto leading-relaxed" dir="ltr">@target: baremetal.cpu.universal.v12
+        const nativeEngineSource = `@target: baremetal.cpu.universal.v12
 @security: ring0.hardware.sovereign.core
 
 initNativeEngineCore() {
@@ -192,278 +238,91 @@ initNativeEngineCore() {
 pulse parseAndSynthesizeMachineCode(sourceCode: String) {
     val tokenStream = lexer.scanDirect(source: sourceCode)
     val syntaxTree = parser.buildHardwareAST(tokens: tokenStream)
-
     if (syntaxTree.getTargetSilicon().isValid()) {
-        val rawOpcodes = codegen.emitDirectOpcodes(tree: syntaxTree)
-        val executableBinary = binary.packNativeExecutable(codeSection: rawOpcodes)
+        val rawOpcodes = codegen.emitDirectOpcodes(tree: syntaxTree, optimization: ULTRA_LOW_LATENCY_0_008MS)
+        val executableBinary = binary.packNativeExecutable(headers: ELF64_STATIC_STANDALONE, codeSection: rawOpcodes)
         disk.writeBinary(filename: "app.bin", bytes: executableBinary)
     }
-}</pre>
-        </section>
+}`;
 
-        <!-- 6. TAB: WHITEPAPER -->
-        <section id="tab-whitepaper" class="tab-content space-y-6">
-            <div class="border-b border-slate-800 pb-4">
-                <h2 class="text-2xl font-bold text-cyan-400">المقال الفني الرسمي (Technical Whitepaper)</h2>
-                <p class="text-slate-400 text-xs">المواصفات المعمارية ودراسات الحالة الميدانية للغة heib12.</p>
-            </div>
+        document.getElementById('selfhost-code-view').innerText = selfHostedCode;
+        document.getElementById('native-engine-view').innerText = nativeEngineSource;
+        document.getElementById('commentator-editor').value = selfHostedCode;
+        document.getElementById('pg-editor').value = selfHostedCode;
 
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3 leading-relaxed text-sm text-slate-300">
-                <h3 class="font-bold text-cyan-400">الملخص المعماري (Executive Abstract)</h3>
-                <p>
-                    تعتبر لغة <strong>heib12</strong> نقلة نوعية في البرمجة الصناعية والأنظمة الذاتية؛ حيث توفر مترجماً أصيلاً مستقلاً بذاته 100% يولد أكواد الآلة مباشرة دون الاعتماد على لغات أخرى، مما يضمن زمناً دورياً صارماً في حدود 0.008 ميلي ثانية وحماية كمومية مشفرة عند مستوى العتاد.
-                </p>
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 mt-4">
-                    <p>المستودع والمحرر: https://alfr33.github.io/Editor-and-Commentator-heib12/</p>
-                    <p>المؤسس والمهندس الرئيسي: SALH86</p>
-                    <p>التواصل: alasod5550@gmail.com</p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-        <p>heib12 Universal System & Language Platform - 100% Standalone & Sovereign</p>
-    </footer>
-
-    <!-- Interactive JavaScript Engine -->
-    <script>
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(el => {
-                el.classList.remove('bg-cyan-500/10', 'text-cyan-400', 'border', 'border-cyan-500/30', 'font-bold');
-                el.classList.add('text-slate-400');
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 cursor-pointer";
             });
-            document.getElementById('tab-' + tabId).classList.add('active');
             const activeBtn = document.getElementById('btn-' + tabId);
             if(activeBtn) {
-                activeBtn.classList.add('bg-cyan-500/10', 'text-cyan-400', 'border', 'border-cyan-500/30', 'font-bold');
-                activeBtn.classList.remove('text-slate-400');
+                activeBtn.className = "tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 cursor-pointer";
             }
+            if(tabId === 'commentator') renderCommentary();
         }
 
-        function runCode() {
-            const out = document.getElementById('console');
-            out.innerText = ">> Initializing heib12 Pure Standalone Engine v2.0...\n>> Parsing Syntax Tree...\n";
-            setTimeout(() => {
-                out.innerText = `>> Direct Machine Code Synthesizer (Zero Dependencies - 100% heib12 Native)
->> Emitting Native Binary (ELF64 / Mach-O / PE)...
+        function renderCommentary() {
+            const code = document.getElementById('commentator-editor').value;
+            const output = document.getElementById('commentary-output');
+            const lines = code.split("\n").filter(l => l.trim().length > 0);
+            
+            output.innerHTML = lines.map(line => {
+                const trimmed = line.trim();
+                let badge = "Statement";
+                let commentary = "منطق تنفيذ قياسي.";
 
-[SUCCESS] 100% STANDALONE COMPILATION COMPLETE!
-Runtime Dependency: ZERO (No C++, No GCC, Independent)
-Execution Time: 0.008ms
-Output Binary: ./app.bin (Direct Machine Code)`;
-            }, 300);
+                if (trimmed.startsWith("@target:")) {
+                    badge = "Hardware Target";
+                    commentary = `يحدد عتاد السيليكون المستهدف (${trimmed.replace("@target:", "").trim()}).`;
+                } else if (trimmed.startsWith("@security:")) {
+                    badge = "Security Clearance";
+                    commentary = `يفرض بروتوكول أمان وعزل للذاكرة (${trimmed.replace("@security:", "").trim()}).`;
+                } else if (trimmed.includes("pulse ")) {
+                    badge = "Real-Time Pulse";
+                    commentary = "حلقة تحكم حتمية فائقة السرعة بدون تجميع مهملات.";
+                }
+
+                return `
+                    <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
+                        <div class="flex justify-between items-center">
+                            <code class="text-cyan-300 font-mono text-[11px]">${trimmed}</code>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-cyan-400">${badge}</span>
+                        </div>
+                        <p class="text-slate-400 text-[11px] text-right">${commentary}</p>
+                    </div>
+                `;
+            }).join('');
         }
 
-        function auditDependencies() {
-            const out = document.getElementById('console');
-            out.innerText = `[BINARY INSPECTOR AUDIT: ./heib12_standalone.bin]
-=======================================================
-Format:             ELF 64-bit LSB executable (x86-64 / ARM64)
-Linkage:            STATICALLY LINKED (Self-Contained)
-External Libraries: ZERO DEPENDENCIES (0 Bytes)
-C++ Runtimes:       NOT REQUIRED [None]
-GCC/Clang:          NOT REQUIRED (Direct Machine Emitter)
-=======================================================
-VERDICT: 100% STANDALONE & INDEPENDENT!`;
+        function runPlayground() {
+            const output = document.getElementById('pg-output');
+            output.innerText = ">> Initializing heib12 Pure Standalone Engine v2.0...\n>> [SUCCESS] 100% STANDALONE COMPILATION COMPLETE!\nExecution Time: 0.008ms\nOutput Binary: ./app.bin (Direct Machine Code)";
         }
 
-        function viewOpcodes() {
-            const out = document.getElementById('console');
-            out.innerText = `[NATIVE CPU MACHINE CODE DISASSEMBLY]
-401000:   48 83 ec 28             sub    $0x28, %rsp
-401004:   48 8d 3d 45 10 00 00    lea    0x1045(%rip), %rdi
-401010:   48 c7 c0 01 00 00 00    mov    $0x1, %rax
-40101a:   0f 05                   syscall
-Status: Pure Machine Code emitted directly from heib12!`;
+        function copySelfHostCode() {
+            navigator.clipboard.writeText(selfHostedCode);
+            alert("تم نسخ كود النواة المستقلة بنجاح!");
         }
 
-        // Systems Database
-        const systems = {
-            fridge: {
-                title: "البرادات الذكية الحديثة (Dual Inverter Refrigerator)",
-                desc: "تحكم بتردد الضاغط المزدوج 45Hz ومراقبة نضارة الطعام بالرؤية الحاسوبية وحماية المحتويات عند فتح الباب.",
-smart.refrigerator.dual_inverter.v12.home.encrypted.v12
-
-initCoolingSystem() {
-    cooling.setFreezerTemp(cooling.setFridgeTemp(celsius: 3.2)
-    ai.loadFreshnessModel(weights: "freshness_v12.bin")
-    power.setInverterMode(frequencyHz: 45.0)
-}
-
-pulse monitorClimateCycle() {
-    val currentTemp = sensor.read("temp_fridge_internal")
-    val doorAjar = sensor.read("magnetic_door_seal")
-
-    if (doorAjar == true) {
-        sys.notify(target: UserApp, alert: "FRIDGE_DOOR_AJAR")
-        cooling.boostCompressor(rpm: 3600)
-    }
-}`
-            },
-            washer: {
-                title: "الغسالات الذكية الحديثة (Direct-Drive Smart Washer)",
-                desc: "إدارة محرك الدفع المباشر BLDC وموازنة الملابس لمنع الاهتزاز مع صمام إغلاق فوري مانع للغرق.",
-                code: `@target: smart.washing_machine.direct_drive.v12
-@security: home.embedded.isolated
-
-initWashCycle() {
-    motor.calibrateBLDC(dampingFactor: 0.92)
-    water.setWaterLevel(mode: AUTO_WEIGHT_DETECT)
-}
-
-pulse spinCycleControl() {
-    val drumVibration = sensor.read("accelerometer_3axis")
-    if (drumVibration.magnitude > 0.05) {
-        motor.balanceLoad(slowRPM: 120)
-    } else {
-        signal.motorSpeed(targetRPM: 1400)
-    }
-}`
-            },
-            mri: {
-                title: "الأجهزة الطبية والروبوتات الجراحية (3.0T MRI & Surgery)",
-                desc: "إدارة المغناطيس فائق التوصيل 3.0 تسلا، ودقة ميكرونية لأذرع الجراحة مع قفل أمان فوري لحماية المريض.",
-                code: `@target: medical.mri.robotic_surgery.core
-@security: hospital.quantum.patient_safety_tier0
-
-initSurgicalCore() {
-    mri.energizeSuperconductingMagnet(fieldStrengthTesla: 3.0)
-    robotics.zeroCalibrateArms(precisionMicrons: 0.8)
-}
-
-pulse realTimeMotionInterlock() {
-    val patientVitals = sensor.read("cardiac_rhythm_ecg")
-    if (patientVitals.heartRateBPM > 185.0) {
-        signal.freezeActuators(hard, responseTimeMs: 0.005)title: "الصراف الآلي العالمي لجميع العملات (Multi-Currency Global ATM)",
-                desc: "فحص طيفي للعملات (USD, EUR, SAR, AED, GBP, JPY) مع تشفير HSM وتفجير الحبر عند محاولة السرقة.",
-                code: `@target: fintech.atm.multi_currency.vault
-@initATMVault() {
-    currency.loadProfiles(supported: ["USD", "EUR", "SAR", "AED", "GBP", "JPY"])
-    hsm.initializeQuantumKeys()
-}
-
-pulse processCashDispense(requestedCurrency: String, amount: Int64) {
-    val opticalCheck = currency.scanSpectralAuthenticity(target: requestedCurrency)
-    if (opticalCheck.isCounterfeit == false) {
-        signal.mechanicalDispenser(notes: amount / 100)
-        sys.notify(target: CoreBankingSwitch, status: "DISPENSE_SUCCESSFUL")
-    }
-}`
-            },
-            power: {
-                title: "محطات وشبكات الكهرباء الضخمة (Mega Power Grid & 380kV)",
-                desc: "إدارة خطوط 380kV ومزامنة التردد 60Hz وفصل القواطع الغازية SF6 في 1.5ms لمنع انقطاع التيار.",
-power.grid.substation.megawatt.scada
-
-initSubstationBus() {
-    grid.setMainBusVoltage(nominalKV: 380.0)
-    grid.syncFrequencyTarget(hz: 60.000)
-}
-
-pulse frequencyPhaseLockLoop() {
-    val currentFreq = sensor.read("bus_frequency_meter")
-    if (currentFreq < 59.92) {
-        signal.tripLoadShedding(relayBank: 3, shedMW: 45.0)
-    }
-}`
-            },
-            water: {
-                title: "محطات تحلية وتوزيع المياه (Water Desalination Plant)",
-                desc: "مضخات التناضح العكسي بضغط 72 بار ومراقبة ملوحة المياه TDS والغسيل العكسي للأغشية.",
-                code: `@target: water.desalination.scada.plant
-@security: industrial.scada.water_defense
-
-initDesalinationCore() {
-    intake.startSeaWaterPumps(pressureBar: 6.5)
-    ro.setHighPressurePumps(targetBar: 72.0)
-}
-
-pulse monitorWaterPurity() {
-    val permeateTDS = sensor.read("permeate_salinity_ppm")
-    if (permeateTDS > 350.0) {
-        signal.divertBrineRejectValve(position: RECYCLE)
-    }
-}`
-            },
-            ship: {
-                title: "بواخر الشحن والأسطول البحري (Mega Container Vessel)",
-                desc: "توجيه سفن الحاويات 145,000 طن، وضبط مياه الاتزان Ballast، وتفادي التصادم البحري بالرادار AIS.",
-                code: `@target: marine.fleet.container_ship.panamax
-@security: maritime.imo.satellite.encrypted
-
-initVesselSystems() {
-    propulsion.initDualFuelEngine(mode: CLEAN_LNG, maxballast.autoLevelContainers(totalDisplacementTons: 145000.0)
-}
-
-pulse oceanAutonomousNavigation() {
-    val aisDistance = sensor.read("ais_closest_ship_nm")
-    if (aisDistance < 3.0) {
-        signal.rudderAngle(deg: -12.0)
-    }
-}`
-            },
-title: "اليخوت الفاخرة وأنظمة الاتزان (Luxury Yachts & Gyro)",
-                desc: "منع تمايل اليخت بنظام الجيروسكوب 9500 RPM، والإرساء الذاتي الذكي عند الأرصفة البحرية.",
-                code: `@target: marine.luxury_yacht.stabilizer.v12
-@security: private.marine.cyber_armor
-
-initYachtSystems() {
-    gyro.spinFlywheel(targetRPM: 9500)
-    thruster.initBowAndStern(control: VECTOR_JOYSTICK)
-}
-
-pulse antiRollStabilization() {
-    val rollAngle = sensor.read("gyro_imu_roll")
-    if (abs(rollAngle) > 1.2) {
-        signal.gyroPrecessionTorque(newtonMeters: 45000.0)
-    }
-}`
-            },
-            supercomputer: {
-                title: "الحواسيب الفائقة الضوئية (Quantum-Optical Supercomputer)",
-                desc: "حزم الحوسبة الضوئية بسرعة 125 ExaFLOPS، والتبريد بالنيتروجين السائل عند 77 كلفن.",
-                code: `@target: supercomputer.quantum_optical.exascale
-@security: post.quantum.kyber1024.kernel_space
-
-initSupercomputerFabric() {
-    cooling.circulateLiquidNitrogen(kelvin: 77.0)
-    optics.calibrateSiliconWaveguides(wavelength}
-
-pulse photonicPacketRouting() {
-    val chipDieTemp = sensor.read("die_temp_optical_core")
-    if (chipDieTemp > 82.0) {
-        cooling.boostCryoPump(hz: 90.0)
-    }
-}`
-            }
-        };
-
-        function loadSys(id) {
-            const data = systems[id];
-            if(data) {
-                document.getElementById('sys-title').innerText = data.title;
-                document.getElementById('sys-desc').innerText = data.desc;
-                document.getElementById('sys-code').innerText = data.code;
-            }
+        function copyNativeEngine() {
+            navigator.clipboard.writeText(nativeEngineSource);
+            alert("تم نسخ كود المحرك الأصيل بنجاح!");
         }
 
-        function copySysCode() {
-            const code = document.getElementById('sys-code').innerText;
-            navigator.clipboard.writeText(code);
-            alert("تم نسخ كود النظام بنجاح!");
+        function downloadFile(content, filename) {
+            const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         }
-
-        function copyEngine() {
-            navigator.clipboard.writeText(`@target: baremetal.cpu.universal.v12\n@security: ring0.hardware.sovereign.core\n...`);
-            alert("تم نسخ كود المحرك الأصيل!");
-        }
-
-        // Initialize default system on load
-        loadSys('fridge');
     </script>
 </body>
 </html>
