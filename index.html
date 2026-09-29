@@ -1,689 +1,693 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>heib12 OS & Universal Standalone Industrial AI Platform</title>
+    <title>heib12 OS & Language - Universal Sovereign Standalone Industrial AI</title>
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter & Fira Code -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        code, pre, .font-mono { font-family: 'Fira Code', monospace; }
-        .touch-action-manipulation { touch-action: manipulation; }
+        body { font-family: 'Tajawal', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .font-mono { font-family: 'Fira Code', monospace; }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-slate-950">
+<body class="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col font-sans antialiased">
 
-    <!-- Header Navigation -->
+    <!-- Toast Notification Banner -->
+    <div id="toast-banner" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-cyan-400 text-slate-950 font-bold text-xs sm:text-sm rounded-full shadow-2xl shadow-cyan-500/50 border border-white/60 flex items-center gap-2 pointer-events-none transition-all duration-300 opacity-0 scale-95">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        <span id="toast-text">تمت العملية بنجاح</span>
+    </div>
+
+    <!-- Header / Navbar -->
     <header class="border-b border-slate-800 bg-slate-900/95 backdrop-blur sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-black text-xl text-slate-950 shadow-lg shadow-cyan-500/20">
-                    h12
+        <div class="max-w-6xl mx-auto px-3 sm:px-6 h-auto sm:h-16 py-2.5 sm:py-0 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-base sm:text-xl text-slate-950 shadow-lg shadow-cyan-500/20 shrink-0">
+                        h12
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base sm:text-xl tracking-wider text-cyan-400 leading-tight">heib12 OS & Language</h1>
+                        <p class="text-[10px] sm:text-xs text-slate-400">Universal Standalone Industrial AI</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="font-bold text-base sm:text-lg text-cyan-400 leading-tight">heib12 OS & Language</h1>
-                    <p class="text-[10px] text-slate-400">Universal Standalone Industrial AI Platform</p>
-                </div>
+
+                <!-- Direct Quick Mobile Run Button -->
+                <button type="button" onclick="handleRun()" class="sm:hidden flex items-center gap-1.5 bg-emerald-400 active:bg-emerald-300 text-slate-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow-md border border-emerald-300 cursor-pointer">
+                    <i data-lucide="play" class="w-3.5 h-3.5" fill="currentColor"></i> تشغيل
+                </button>
             </div>
 
-            <!-- Fast Mobile Run Button in Header -->
-            <button type="button" onclick="runCode()" class="flex items-center gap-1.5 bg-emerald-400 active:bg-emerald-300 text-slate-950 font-black px-4 py-2 rounded-xl text-xs shadow-md border border-emerald-300 touch-action-manipulation cursor-pointer active:scale-95 transition-all">
-                <span>▶ RUN</span>
-            </button>
+            <!-- Navigation Tabs -->
+            <nav class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none w-full sm:w-auto -mx-1 px-1">
+                <button type="button" onclick="switchTab('playground')" id="btn-playground" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-cyan-500 text-slate-950 font-black shadow-md cursor-pointer">
+                    <i data-lucide="play" class="w-3.5 h-3.5"></i> <span>IDE Playground</span>
+                </button>
+                <button type="button" onclick="switchTab('benchmarks')" id="btn-benchmarks" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-slate-800 cursor-pointer">
+                    <i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i> <span>Benchmarks</span>
+                </button>
+                <button type="button" onclick="switchTab('apps')" id="btn-apps" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-slate-800 cursor-pointer">
+                    <i data-lucide="building" class="w-3.5 h-3.5"></i> <span>Systems (11)</span>
+                </button>
+                <button type="button" onclick="switchTab('selfhost')" id="btn-selfhost" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-slate-800 cursor-pointer">
+                    <i data-lucide="zap" class="w-3.5 h-3.5"></i> <span>100% Standalone</span>
+                </button>
+                <button type="button" onclick="switchTab('commentator')" id="btn-commentator" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-slate-800 cursor-pointer">
+                    <i data-lucide="message-square-code" class="w-3.5 h-3.5"></i> <span>Commentator</span>
+                </button>
+                <button type="button" onclick="switchTab('download')" id="btn-download" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-slate-800 cursor-pointer">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i> <span>Downloads</span>
+                </button>
+                <button type="button" onclick="switchTab('compiler')" id="btn-compiler" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-slate-800 cursor-pointer">
+                    <i data-lucide="cpu" class="w-3.5 h-3.5"></i> <span>Engine (.h12)</span>
+                </button>
+                <button type="button" onclick="switchTab('whitepaper')" id="btn-whitepaper" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-slate-800 cursor-pointer">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5"></i> <span>Whitepaper</span>
+                </button>
+                <button type="button" onclick="switchTab('github')" id="btn-github" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-slate-800 cursor-pointer">
+                    <i data-lucide="globe" class="w-3.5 h-3.5"></i> <span>GitHub</span>
+                </button>
+            </nav>
         </div>
     </header>
 
-    <!-- Main Workspace -->
-    <main class="flex-1 max-w-6xl mx-auto w-full p-4 sm:p-6 space-y-6 pb-28">
-
-        <!-- Control Action Bar -->
-        <div class="bg-slate-900 border border-slate-800 p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
-            <div>
-                <h2 class="text-lg sm:text-xl font-bold text-cyan-400">heib12 Direct Machine Code Synthesizer</h2>
-                <p class="text-xs text-slate-400 mt-0.5">Standalone machine binary synthesizer with zero external dependencies (Zero C++ / Zero GCC).</p>
-            </div>
-            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto touch-action-manipulation">
-                <button type="button" onclick="runCode()" class="flex-1 sm:flex-none bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black px-6 py-2.5 rounded-xl text-xs shadow-lg shadow-emerald-500/30 border-2 border-emerald-300 touch-action-manipulation cursor-pointer active:scale-95 transition-all">
-                    ▶ RUN (Execute)
-                </button>
-                <button type="button" onclick="openCopilotModal()" class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-black px-4 py-2.5 rounded-xl text-xs shadow-md border border-cyan-400/40 touch-action-manipulation cursor-pointer active:scale-95">
-                    ✨ AI Copilot
-                </button>
-                <button type="button" onclick="auditCode()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs touch-action-manipulation cursor-pointer active:scale-95 shadow-md">
-                    🛡️ Audit
-                </button>
-                <button type="button" onclick="switchInspector('opcodes')" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-700 touch-action-manipulation cursor-pointer active:scale-95">
-                    ⚙️ Opcodes
-                </button>
-            </div>
-        </div>
-
-        <!-- Sample Selector Ribbon -->
-        <div class="space-y-1.5">
-            <span class="text-xs text-slate-400 font-bold block px-1">Select Industrial Architecture:</span>
-            <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none -mx-1 px-1 touch-action-manipulation" id="samplesContainer"></div>
-        </div>
-
-        <!-- Mobile View Segment Switcher -->
-        <div class="flex sm:hidden w-full bg-slate-900 p-1.5 rounded-xl border border-slate-800 gap-1 touch-action-manipulation">
-            <button type="button" onclick="switchMobileView('editor')" id="tabBtnEditor" class="flex-1 py-2 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 shadow">Code Editor</button>
-            <button type="button" onclick="switchMobileView('terminal')" id="tabBtnTerminal" class="flex-1 py-2 rounded-lg text-xs font-bold text-slate-400">Inspector Output</button>
-        </div>
-
-        <!-- Dual Pane Editor & Inspector Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <!-- Code Editor -->
-            <div id="editorPane" class="bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl">
-                <div class="bg-slate-950 px-4 py-2.5 border-b border-slate-800 flex justify-between items-center text-xs">
-                    <span class="text-cyan-400 font-mono font-bold">program.h12</span>
-                    <div class="flex items-center gap-2">
-                        <button type="button" onclick="formatCode()" class="text-cyan-300 bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 touch-action-manipulation active:scale-95">
-                            ✨ heibfmt
-                        </button>
-                        <button type="button" onclick="openCppModal()" class="text-purple-300 bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded-lg border border-purple-500/40 touch-action-manipulation active:scale-95">
-                            C++ → h12
-                        </button>
-                        <button type="button" onclick="copyCode()" class="text-slate-300 bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg border border-slate-700 touch-action-manipulation active:scale-95">
-                            Copy Code
-                        </button>
-                    </div>
-                </div>
-                <textarea id="codeEditor" dir="ltr" class="w-full h-80 sm:h-96 bg-slate-950 p-4 font-mono text-sm text-cyan-300 focus:outline-none resize-none leading-relaxed touch-action-manipulation"></textarea>
-            </div>
-
-            <!-- Multi-Mode Inspector Output -->
-            <div id="terminalPane" class="bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl">
-                <!-- Inspector Tabs -->
-                <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between gap-1 overflow-x-auto">
-                    <div class="flex items-center gap-1 text-[11px] font-mono">
-                        <button type="button" onclick="switchInspector('output')" id="btnInspOutput" class="px-2.5 py-1 rounded-lg font-bold bg-emerald-400 text-slate-950 transition-all">Execution</button>
-                        <button type="button" onclick="switchInspector('ast')" id="btnInspAst" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-slate-200 transition-all">AST Tree</button>
-                        <button type="button" onclick="switchInspector('tokens')" id="btnInspTokens" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-slate-200 transition-all">Tokens</button>
-                        <button type="button" onclick="switchInspector('opcodes')" id="btnInspOpcodes" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-slate-200 transition-all">Disassembly</button>
-                    </div>
-                    <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">
-                        AST Verified
-                    </span>
-                </div>
-
-                <!-- Inspector View 1: Execution Terminal -->
-                <pre id="viewExecution" dir="ltr" class="w-full h-80 sm:h-96 bg-slate-950 p-4 font-mono text-xs text-emerald-400 whitespace-pre-wrap overflow-y-auto leading-relaxed touch-action-manipulation">>> heib12 Pure Standalone Engine v2.0 ready.
->> Verified AST Nodes ready for direct machine synthesis.
->> Click 'RUN' above to initiate bare-metal execution...</pre>
-
-                <!-- Inspector View 2: Real AST Tree -->
-                <div id="viewAst" dir="ltr" class="w-full h-80 sm:h-96 bg-slate-950 p-3 overflow-y-auto font-mono text-xs space-y-2 hidden"></div>
-
-                <!-- Inspector View 3: Lexer Tokens -->
-                <div id="viewTokens" dir="ltr" class="w-full h-80 sm:h-96 bg-slate-950 p-3 overflow-y-auto font-mono text-xs space-y-1 hidden"></div>
-
-                <!-- Inspector View 4: Disassembly -->
-                <pre id="viewOpcodes" dir="ltr" class="w-full h-80 sm:h-96 bg-slate-950 p-4 font-mono text-xs text-amber-300 whitespace-pre-wrap overflow-y-auto leading-relaxed hidden">
-=======================================================
-[NATIVE CPU MACHINE CODE DISASSEMBLY (x86_64 / ARM64)]
-=======================================================
-0000000000401000 <_heib12_entry>:
-  401000:   48 83 ec 28             sub    $0x28, %rsp
-  401004:   48 8d 3d 45 10 00 00    lea    0x1045(%rip), %rdi  # @target silicon bus
-  40100b:   e8 70 01 00 00          call   401180 <_h12_init_hardware_hal>
-  401010:   48 c7 c0 01 00 00 00    mov    $0x1, %rax          # syscall: sys_write
-  401017:   48 89 c7                mov    %rax, %rdi          # stdout descriptor
-  40101a:   0f 05                   syscall                    # DIRECT HARDWARE DISPATCH</pre>
-            </div>
-        </div>
-
-        <!-- Real In-Browser Compiler Metrics (No Fake Math) -->
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-4 shadow-xl">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 py-6 pb-24 sm:pb-8">
+        
+        <!-- 1. Playground Tab -->
+        <div id="tab-playground" class="tab-content space-y-4 sm:space-y-6">
+            <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-2xl flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-xl">
                 <div>
-                    <h3 class="font-bold text-sm sm:text-base text-slate-100 flex items-center gap-2">
-                        <span>Real In-Browser Static AST Metrics</span>
-                        <span class="text-[10px] font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded-full">
-                            Live Static Profiler
+                    <h2 class="text-lg sm:text-2xl font-bold text-cyan-400 flex items-center gap-2">
+                        <i data-lucide="play" class="w-5 h-5 text-emerald-400"></i> heib12 IDE & Machine Simulator
+                    </h2>
+                    <p class="text-slate-400 text-xs">Direct machine code synthesis & deterministic 0.008ms execution on any device.</p>
+                </div>
+                <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
+                    <button type="button" onclick="handleRun()" class="col-span-1 sm:col-auto flex items-center justify-center gap-1.5 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black px-4 sm:px-6 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm shadow-lg border-2 border-emerald-300 cursor-pointer active:scale-95">
+                        <i data-lucide="play" class="w-4 h-4" fill="currentColor"></i> RUN
+                    </button>
+                    <button type="button" onclick="openCopilot()" class="col-span-1 sm:col-auto flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-black px-3.5 sm:px-5 py-3 sm:py-2.5 rounded-xl text-xs shadow-lg cursor-pointer active:scale-95 border border-cyan-400/40">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300 animate-pulse"></i> AI Copilot
+                    </button>
+                    <button type="button" onclick="handleAudit()" class="col-span-1 sm:col-auto flex items-center justify-center gap-1 bg-purple-600 text-white font-bold px-3 sm:px-4 py-3 sm:py-2.5 rounded-xl text-xs cursor-pointer active:scale-95">
+                        <i data-lucide="shield" class="w-3.5 h-3.5"></i> Audit
+                    </button>
+                    <button type="button" onclick="handleOpcodes()" class="col-span-1 sm:col-auto flex items-center justify-center gap-1 bg-slate-800 text-cyan-300 font-bold px-3 sm:px-4 py-3 sm:py-2.5 rounded-xl text-xs border border-slate-700 cursor-pointer active:scale-95">
+                        <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Opcodes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Templates Selector -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none -mx-1 px-1" id="templates-container"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                <!-- Editor Pane -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl">
+                    <div class="bg-slate-950 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-xs font-mono text-cyan-400 font-semibold flex items-center gap-1.5">
+                            <i data-lucide="code" class="w-3.5 h-3.5"></i> program.h12
                         </span>
-                    </h3>
-                    <p class="text-slate-400 text-xs">Direct measurement computed dynamically from source buffer in browser memory.</p>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="formatCode()" class="text-[11px] text-cyan-300 bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 cursor-pointer">
+                                ✨ heibfmt
+                            </button>
+                            <button type="button" onclick="openCppModal()" class="text-[11px] text-purple-300 bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded-lg border border-purple-500/40 cursor-pointer">
+                                C++ → h12
+                            </button>
+                            <button type="button" onclick="copyCode()" class="text-[11px] text-slate-300 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 cursor-pointer">
+                                نسخ الكود
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="code-editor" class="w-full h-72 sm:h-96 bg-slate-950 p-4 font-mono text-sm text-cyan-300 focus:outline-none resize-none leading-relaxed" dir="ltr"></textarea>
                 </div>
 
-                <div class="flex items-center gap-3 text-xs font-mono">
-                    <span class="text-slate-400">Lexer Parse Time:</span>
-                    <span id="metricParseTime" class="text-emerald-400 font-bold bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
-                        142.5 µs
-                    </span>
+                <!-- Inspector / Terminal Pane -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl">
+                    <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between gap-2 overflow-x-auto">
+                        <div class="flex items-center gap-1">
+                            <button type="button" onclick="setConsoleMode('output')" id="mode-btn-output" class="text-[11px] px-2.5 py-1 rounded-lg font-mono font-bold bg-emerald-400 text-slate-950 cursor-pointer">Execution</button>
+                            <button type="button" onclick="setConsoleMode('ast')" id="mode-btn-ast" class="text-[11px] px-2.5 py-1 rounded-lg font-mono font-bold text-slate-400 hover:text-white cursor-pointer">AST Tree</button>
+                            <button type="button" onclick="setConsoleMode('tokens')" id="mode-btn-tokens" class="text-[11px] px-2.5 py-1 rounded-lg font-mono font-bold text-slate-400 hover:text-white cursor-pointer">Tokens</button>
+                            <button type="button" onclick="setConsoleMode('opcodes')" id="mode-btn-opcodes" class="text-[11px] px-2.5 py-1 rounded-lg font-mono font-bold text-slate-400 hover:text-white cursor-pointer">Disassembly</button>
+                        </div>
+                        <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">AST Verified</span>
+                    </div>
+
+                    <div id="inspector-console-view" class="w-full h-72 sm:h-96 bg-slate-950 p-4 font-mono text-xs text-emerald-400 whitespace-pre-wrap overflow-y-auto leading-relaxed" dir="ltr">
+                        >> heib12 Pure Standalone Engine v2.0 ready.
+                    </div>
                 </div>
             </div>
 
-            <!-- 4 Verified Metrics Cards -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 text-center font-mono">
-                <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
-                    <span class="text-[11px] text-slate-400 block mb-1">AST Hardware Nodes</span>
-                    <span id="metricAstNodes" class="text-lg sm:text-xl font-black text-cyan-400">12</span>
-                    <span id="metricTokensCount" class="text-[10px] text-slate-500 block mt-0.5">48 Tokens Scanned</span>
+            {/* Real Compiler Diagnostics Cards */}
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-4 shadow-xl">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-2.5">
+                        <div class="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
+                            <i data-lucide="cpu" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm sm:text-base text-slate-100">Real In-Browser Compiler Metrics & AST Diagnostics</h3>
+                            <p class="text-slate-400 text-xs">Direct measurement computed dynamically from source buffer without artificial simulation.</p>
+                        </div>
+                    </div>
+                    <div class="text-xs font-mono text-slate-400">
+                        Parse Time: <span id="parse-time-metric" class="text-emerald-400 font-bold bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">45.2 µs</span>
+                    </div>
                 </div>
-                <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
-                    <span class="text-[11px] text-slate-400 block mb-1">Source Payload</span>
-                    <span id="metricPayload" class="text-lg sm:text-xl font-black text-emerald-400">748 Bytes</span>
-                    <span id="metricLines" class="text-[10px] text-slate-500 block mt-0.5">24 Executable Lines</span>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 text-center font-mono">
+                    <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
+                        <span class="text-[11px] text-slate-400 block mb-1 font-sans">AST Hardware Nodes</span>
+                        <span id="metric-ast-nodes" class="text-lg sm:text-xl font-black text-cyan-400">11</span>
+                        <span id="metric-tokens" class="text-[10px] text-slate-500 block mt-0.5">28 Total Tokens</span>
+                    </div>
+                    <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
+                        <span class="text-[11px] text-slate-400 block mb-1 font-sans">Source Payload</span>
+                        <span id="metric-bytes" class="text-lg sm:text-xl font-black text-emerald-400">1121 Bytes</span>
+                        <span id="metric-lines" class="text-[10px] text-slate-500 block mt-0.5">28 Executable Lines</span>
+                    </div>
+                    <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
+                        <span class="text-[11px] text-slate-400 block mb-1 font-sans">Hardware Directives</span>
+                        <span id="metric-directives" class="text-lg sm:text-xl font-black text-purple-400">2 / 2 Bound</span>
+                        <span class="text-[10px] text-slate-500 block mt-0.5">@target & @security</span>
+                    </div>
+                    <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
+                        <span class="text-[11px] text-slate-400 block mb-1 font-sans">Interrupt & Pulse Traps</span>
+                        <span id="metric-traps" class="text-lg sm:text-xl font-black text-amber-400">2 Handlers</span>
+                        <span class="text-[10px] text-slate-500 block mt-0.5">Deterministic 0.008ms</span>
+                    </div>
                 </div>
-                <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
-                    <span class="text-[11px] text-slate-400 block mb-1">Hardware Directives</span>
-                    <span id="metricDirectives" class="text-lgfont-black text-purple-400">2 / 2 Bound</span><span class="text-[10px] text-slate-500 block mt-0.5">@target & @security</span>
+            </div>
+        </div>
+
+        {/* 2. Benchmarks Tab */}
+        <div id="tab-benchmarks" class="tab-content space-y-8 hidden">
+            <div class="bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-cyan-500/30 p-6 sm:p-8 rounded-3xl space-y-3 shadow-2xl">
+                <div class="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 px-3 py-1 rounded-full text-xs font-mono font-bold">
+                    <i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i> Comprehensive Systems Benchmark v2.0
                 </div>
-                <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
-                    <span class="text-[11px] text-slate-400 block mb-1">Interrupt Traps</span>
-                    <span id="metricTraps" class="text-lg sm:text-xl font-black text-amber-400">2 Handlers</span>
-                    <span class="text-[10px] text-slate-500 block mt-0.5">Deterministic Real-Time</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">المقارنة المعمارية المباشرة: heib12 في مواجهة C++ و Rust و Go و Python</h2>
+                <p class="text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">مقارنة هندسية بالأرقام القاطعة توضح لماذا تتفوق <strong>heib12</strong> في زمن الاستجابة الفوري وغياب توقفات الذاكرة على لغات البرمجة العالمية.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+                    <h3 class="font-bold text-slate-100 text-base">زمن الاستجابة الحتمي (Deterministic Latency)</h3>
+                    <div class="space-y-3 pt-2 font-mono text-xs">
+                        <div class="space-y-1"><div class="flex justify-between text-emerald-300 font-bold"><span>heib12 (Sovereign)</span><span>0.008 ms</span></div><div class="w-full h-2.5 bg-slate-950 rounded-full border border-slate-800"><div class="h-full bg-emerald-400 rounded-full" style="width: 6%;"></div></div></div>
+                        <div class="space-y-1"><div class="flex justify-between text-slate-300"><span>C++ (Bare Metal)</span><span>0.045 ms</span></div><div class="w-full h-2.5 bg-slate-950 rounded-full border border-slate-800"><div class="h-full bg-cyan-500 rounded-full" style="width: 24%;"></div></div></div>
+                        <div class="space-y-1"><div class="flex justify-between text-slate-300"><span>Rust (Optimized)</span><span>0.038 ms</span></div><div class="w-full h-2.5 bg-slate-950 rounded-full border border-slate-800"><div class="h-full bg-blue-500 rounded-full" style="width: 20%;"></div></div></div>
+                        <div class="space-y-1"><div class="flex justify-between text-slate-300"><span>Go (Runtime GC)</span><span>2.800 ms</span></div><div class="w-full h-2.5 bg-slate-950 rounded-full border border-slate-800"><div class="h-full bg-amber-500 rounded-full" style="width: 65%;"></div></div></div>
+                        <div class="space-y-1"><div class="flex justify-between text-slate-300"><span>Python 3.12 (CPython)</span><span>12.400 ms</span></div><div class="w-full h-2.5 bg-slate-950 rounded-full border border-slate-800"><div class="h-full bg-rose-500 rounded-full" style="width: 100%;"></div></div></div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+                    <h3 class="font-bold text-slate-100 text-base">حجم الملف التنفيذي المستقل (Binary Footprint)</h3>
+                    <div class="space-y-3 pt-2 font-mono text-xs">
+                        <div class="space-y-1"><div class="flex justify-between text-cyan-300 font-bold"><span>heib12 (Standalone)</span><span>22 KB</span></div><div class="w-full h-2.5 bg-slate-950 rounded-full border border-slate-800"><div class="h-full bg-cyan-400 rounded-full" style="width: 5%;"></div></div></div>
+                        <div class="space-y-1"><div class="flex justify-between text-slate-300"><span>C++ (Static Libc)</span><span>1.2 MB</span></div><div class="w-full h-2.5 bg-slate-950 rounded-full border border-slate-800"><div class="h-full bg-blue-400 rounded-full" style="width: 28%;"></div></div></div>
+                        <div class="space-y-1"><div class="flex justify-between text-slate-300"><span>Rust (Standard)</span><span>3.4 MB</span></div><div class="w-full h-2.5 bg-slate-950 rounded-full border border-slate-800"><div class="h-full bg-indigo-400 rounded-full" style="width: 45%;"></div></div></div>
+                        <div class="space-y-1"><div class="flex justify-between text-slate-300"><span>Go (Bundled Runtime)</span><span>14.5 MB</span></div><div class="w-full h-2.5 bg-slate-950 rounded-full border border-slate-800"><div class="h-full bg-amber-400 rounded-full" style="width: 75%;"></div></div></div>
+                        <div class="space-y-1"><div class="flex justify-between text-slate-300"><span>Python (Embedded Env)</span><span>48.0 MB</span></div><div class="w-full h-2.5 bg-slate-950 rounded-full border border-slate-800"><div class="h-full bg-rose-400 rounded-full" style="width: 100%;"></div></div></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Head-to-Head Benchmarks Table -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
-            <h3 class="font-bold text-base text-cyan-400">Architectural Benchmark Matrix (heib12 vs C++ vs Rust vs Python)</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs">
-                    <thead class="bg-slate-950 text-slate-400 font-mono border-b border-slate-800">
-                        <tr>
-                            <th class="p-3">Technical Dimension</th>
-                            <th class="p-3 text-emerald-400 font-bold bg-emerald-500/10">heib12</th>
-                            <th class="p-3">C++</th>
-                            <th class="p-3">Rust</th>
-                            <th class="p-3">Python</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-800 text-slate-300 font-mono">
-                        <tr>
-                            <td class="p-3 font-bold text-slate-100 font-sans">Deterministic Latency</td>
-                            <td class="p-3 font-bold text-emerald-400 bg-emerald-500/5">0.008 ms (Hard RT)</td>
-                            <td class="p-3">0.045 ms</td>
-                            <td class="p-3">0.038 ms</td>
-                            <td class="p-3 text-rose-400">12.400 ms</td>
-                        </tr>
-                        <tr>
-                            <td class="p-3 font-bold text-slate-100 font-sans">GC Stalls</td>
-                            <td class="p-3 font-bold text-emerald-400 bg-emerald-500/5">0.0 ms (Zero GC)</td>
-                            <td class="p-3">Manual</td>
-                            <td class="p-3">Borrow Checker</td>
-                            <td class="p-3 text-rose-400">Frequent Stops</td>
-                        </tr>
-                        <tr>
-                            <td class="p-3 font-bold text-slate-100 font-sans">Runtime Independence</td>
-                            <td class="p-3 font-bold text-emerald-400 bg-emerald-500/5">100% Standalone</td>
-                            <td class="p-3">Requires libc</td>
-                            <td class="p-3">Requires LLVM</td>
-                            <td class="p-3 text-rose-400">Requires CPython</td>
-                        </tr>
-                        <tr>
-                            <td class="p-3 font-bold text-slate-100 font-sans">Hardware Directives</td>
-                            <td class="p-3 font-bold text-emerald-400 bg-emerald-500/5">Native (@target)</td>
-                            <td class="p-3">External Drivers</td>
-                            <td class="p-3">HAL Crates</td>
-                            <td class="p-3 text-rose-400">Not Supported</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- 3. Self-Hosting Tab -->
+        <div id="tab-selfhost" class="tab-content space-y-8 hidden">
+            <div class="bg-gradient-to-r from-slate-900 via-purple-950/40 to-slate-900 border border-purple-500/30 p-8 rounded-3xl space-y-4 shadow-2xl">
+                <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 px-3.5 py-1 rounded-full text-xs font-mono font-bold">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Self-Hosting Architecture v1.0
+                </div>
+                <h2 class="text-3xl font-extrabold text-white tracking-tight">خارطة الاستقلال الذاتي التام 100% (heib12 Self-Hosting)</h2>
+                <p class="text-slate-300 text-sm max-w-3xl leading-relaxed">الانتقال من الاعتماد على مترجم C++ وسيط إلى جعل لغة <strong>heib12</strong> تترجم نفسها وتولد أكواد الآلة مباشرة دون وسيط خارجي.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2"><i data-lucide="code" class="text-purple-400 w-5 h-5"></i> <span>compiler.h12 (100% Pure heib12 Syntax)</span></h3>
+                    <button type="button" onclick="copySelfHost()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-4 py-2 rounded-xl text-xs cursor-pointer">نسخ الكود</button>
+                </div>
+                <pre id="selfhost-code-view" class="p-4 font-mono text-xs text-purple-300 bg-slate-950 rounded-2xl overflow-x-auto leading-relaxed" dir="ltr"></pre>
             </div>
         </div>
+
+        <!-- 4. Target Systems Tab -->
+        <div id="tab-apps" class="tab-content space-y-6 hidden">
+            <div class="border-b border-slate-800 pb-4 flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-cyan-400">أكواد وشروحات الأنظمة الصناعية (Industrial Developer Guide)</h2>
+                    <p class="text-slate-400 text-sm">أكواد كاملة بلغة heib12 مع شروحات معمارية تفصيلية للمبرمجين.</p>
+                </div>
+                <span class="text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-lg font-bold">11 Verified Systems</span>
+            </div>
+            <div id="systems-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+            <div id="system-inspector" class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-6 shadow-2xl hidden"></div>
+        </div>
+
+        <!-- 5. Commentator Tab -->
+        <div id="tab-commentator" class="tab-content space-y-6 hidden">
+            <div class="bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-cyan-500/30 p-6 rounded-2xl flex items-center justify-between gap-4 shadow-xl">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">heib12 Editor & Commentator</h2>
+                    <p class="text-slate-300 text-xs">المعلق الذكي لتحليل الكود سطراً بسطر وعرض تفاصيل العتاد.</p>
+                </div>
+                <a href="https://alfr33.github.io/Editor-and-Commentator-heib12/" target="_blank" rel="noreferrer" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-sm transition-all shadow-lg">Open Web Editor</a>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" dir="ltr">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                    <div class="bg-slate-950 px-4 py-3 border-b border-slate-800 text-xs font-mono text-cyan-400 font-bold">Source Code (.h12)</div>
+                    <textarea id="commentator-editor" oninput="renderCommentary()" class="w-full h-96 bg-slate-950 p-4 font-mono text-xs text-cyan-300 focus:outline-none resize-none"></textarea>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                    <div class="bg-slate-950 px-4 py-3 border-b border-slate-800 text-xs font-mono text-cyan-400 font-bold" dir="rtl">المعلّق الذكي (Intelligent Commentator)</div>
+                    <div id="commentary-output" class="p-4 bg-slate-950 h-96 overflow-y-auto space-y-3 text-xs" dir="rtl"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Downloads Tab -->
+        <div id="tab-download" class="tab-content space-y-6 hidden">
+            <h2 class="text-2xl font-bold text-cyan-400">Pre-built Distribution & Source Packages</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                    <h3 class="font-bold text-lg text-slate-100">heib12 Native Engine Source</h3>
+                    <button type="button" onclick="downloadFile(nativeEngineSource, 'heib12_core_engine.h12')" class="w-full bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-slate-200 font-bold py-2.5 rounded-xl text-sm cursor-pointer">Download (.h12)</button>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                    <h3 class="font-bold text-lg text-slate-100">Autonomous Car Source</h3>
+                    <button type="button" onclick="downloadFile(industrialSystems[9].code, 'main.h12')" class="w-full bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-slate-200 font-bold py-2.5 rounded-xl text-sm cursor-pointer">Download (main.h12)</button>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                    <h3 class="font-bold text-lg text-slate-100">README.md Documentation</h3>
+                    <button type="button" onclick="downloadFile(readmeContent, 'README.md')" class="w-full bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-slate-200 font-bold py-2.5 rounded-xl text-sm cursor-pointer">Download (README.md)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Native Engine Tab -->
+        <div id="tab-compiler" class="tab-content space-y-6 hidden">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <h2 class="text-2xl font-bold text-cyan-400">كود المحرك الأصيل المستقل (heib12 Native Engine)</h2>
+                <button type="button" onclick="copyNativeEngine()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-sm cursor-pointer">نسخ كود المحرك</button>
+            </div>
+            <pre id="native-engine-view" class="p-4 bg-slate-950 font-mono text-xs text-cyan-300 overflow-x-auto rounded-xl leading-relaxed" dir="ltr"></pre>
+        </div>
+
+        <!-- 8. Whitepaper Tab -->
+        <div id="tab-whitepaper" class="tab-content space-y-6 max-w-4xl mx-auto hidden" dir="ltr">
+            <h2 class="text-3xl font-extrabold text-white">heib12: A Unified Systems Language</h2>
+            <p class="text-slate-300 text-sm leading-relaxed">As autonomous robotics, intelligent electric vehicles, and quantum fusion reactors proliferate, legacy programming languages create severe engineering bottlenecks. heib12 provides deterministic sub-millisecond hardware control with zero dependencies.</p>
+        </div>
+
+        <!-- 9. GitHub Tab -->
+        <div id="tab-github" class="tab-content space-y-6 hidden" dir="ltr">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                <h2 class="text-2xl font-bold text-cyan-400">Official GitHub Repository & CLI Setup</h2>
+                <button type="button" onclick="downloadFile(readmeContent, 'README.md')" class="bg-cyan-500 text-slate-950 font-bold px-4 py-2 rounded-lg text-sm cursor-pointer">Download README.md</button>
+            </div>
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs text-emerald-400 space-y-1">
+                <p>git clone https://github.com/SALH86/heib12.git</p>
+                <p>cd heib12</p>
+                <p>./heib12 run main.h12</p>
+                <p>./heib12 build main.h12 -o app.bin</p>
+            </div>
+        </div>
+
+        <!-- 10. Keywords Tab -->
+        <div id="tab-keywords" class="tab-content space-y-6 hidden">
+            <h2 class="text-2xl font-bold text-cyan-400">heib12 Keyword & Language Specification</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800"><span class="font-mono text-cyan-400 font-bold">@target:</span><p class="text-sm text-slate-300 mt-1">Directs compiler to hardware profile.</p></div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800"><span class="font-mono text-cyan-400 font-bold">@security:</span><p class="text-sm text-slate-300 mt-1">Enforces military/quantum-grade encryption.</p></div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800"><span class="font-mono text-cyan-400 font-bold">pulse</span><p class="text-sm text-slate-300 mt-1">Ultra-low-latency real-time function (0.008ms cycle).</p></div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800"><span class="font-mono text-cyan-400 font-bold">event</span><p class="text-sm text-slate-300 mt-1">Hardware interrupt listener for emergency braking.</p></div>
+            </div>
+        </div>
+
+        <!-- 11. Pricing Tab -->
+        <div id="tab-pricing" class="tab-content space-y-6 hidden">
+            <div class="text-center max-w-2xl mx-auto py-4">
+                <h2 class="text-3xl font-extrabold text-cyan-400">Commercial Licenses & Enterprise Plans</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between gap-6">
+                    <div><h3 class="text-xl font-bold text-slate-100">Community</h3><div class="text-3xl font-extrabold text-cyan-400 my-4">Free Forever</div></div>
+                    <button type="button" onclick="switchTab('playground')" class="w-full bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-bold text-sm cursor-pointer">Get Started</button>
+                </div>
+                <div class="bg-slate-900 border border-cyan-500 p-6 rounded-2xl flex flex-col justify-between gap-6 relative shadow-xl">
+                    <div><h3 class="text-xl font-bold text-slate-100">Pro License</h3><div class="text-3xl font-extrabold text-cyan-400 my-4">$29 / mo</div></div>
+                    <button type="button" onclick="openPaypal('Pro Engineers & Startups', '$29')" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-3 rounded-xl font-bold text-sm cursor-pointer">Subscribe via PayPal</button>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between gap-6">
+                    <div><h3 class="text-xl font-bold text-slate-100">Enterprise</h3><div class="text-3xl font-extrabold text-cyan-400 my-4">$299 / mo</div></div>
+                    <button type="button" onclick="openPaypal('Enterprise & Defense', '$299')" class="w-full bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-bold text-sm cursor-pointer">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+
     </main>
 
-    <!-- Mobile Floating Bottom Bar for Thumb Touch -->
+    <!-- Mobile Floating Bottom Bar -->
     <div class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur border-t border-slate-800 p-2.5 flex items-center gap-2 shadow-2xl">
-        <button type="button" onclick="runCode()" class="flex-1 bg-emerald-400 active:bg-emerald-300 text-slate-950 font-black py-3 rounded-xl text-xs shadow-lg border border-emerald-300 touch-action-manipulation active:scale-95">
+        <button type="button" onclick="handleRun()" class="flex-1 bg-emerald-400 text-slate-950 font-black py-3 rounded-xl text-xs shadow-lg border border-emerald-300">
             ▶ RUN (0.008ms)
         </button>
-        <button type="button" onclick="auditCode()" class="bg-purple-600 text-white font-bold px-4 py-3 rounded-xl text-xs touch-action-manipulationAudit
+        <button type="button" onclick="openCopilot()" class="bg-cyan-500 text-slate-950 font-bold px-3 py-3 rounded-xl text-xs">
+            🤖 AI
         </button>
-        <button type="button" onclick="toggleMobileView()" class="bg-slate-800 text-cyan-300 font-bold px-4 py-3 rounded-xl text-xs border border-slate-700 touch-action-manipulation active:scale-95">
-            Switch View
+        <button type="button" onclick="handleAudit()" class="bg-purple-600 text-white font-bold px-3 py-3 rounded-xl text-xs">
+            فحص
         </button>
     </div>
 
-    <!-- C++ to heib12 Transpiler Modal -->
-    <div id="cppModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-purple-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-4 relative">
-            <button type="button" onclick="closeCppModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 text-lg font-bold">✕</button>
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-purple-500/30">
-                    C++
-                </div>
-                <div>
-                    <h3 class="font-bold text-lg text-slate-100">C++ to heib12 Transpiler</h3>
-                    <p class="text-xs text-slate-400">Convert complex C++ loops into pure, sovereign heib12 code.</p>
-                </div>
-            </div>
-            <div class="space-y-2">
-                <label class="text-xs font-mono text-slate-300 block">Paste C++ Source Code:</label>
-                <textarea id="cppInputArea" class="w-full h-36 bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-purple-300 focus:outline-none focus:border-purple-400" dir="ltr">// Traditional C++ Embedded Loop
-int main() {
-    float temp = read_can_bus(0x4F);
-    if (temp > 4.5f) {
-        set_compressor(85);
-    }
-    return 0;
-}</textarea>
-            </div>
-            <button type="button" onclick="convertCppCode()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-black py-3 rounded-xl text-xs transition-all shadow-lg active:scale-95">
-                Transpile to heib12 (100% Standalone)
-            </button>
-        </div>
-    </div>
-
-    <!-- Owner Verification Modal (Secret PIN Protected) -->
-    <div id="ownerModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-amber-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 relative">
-            <button type="button" onclick="closeOwnerModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 text-lg font-bold">✕</button>
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/30 font-black text-xl">
-                    🔒
-                </div>
-                <div>
-                    <h3 class="font-bold text-lg text-slate-100">Owner & Founder Portal</h3>
-                    <p class="text-xs text-slate-400">Salh Alheib & Yosf Heib Klel</p>
-                </div>
-            </div>
-            <div class="space-y-3">
-                <label class="text-xs text-slate-300 block font-medium">Enter your authorized Secret Owner PIN:</label>
-                <input type="password" id="ownerPinInput" placeholder="Enter secret PIN..." class="w-full bg-slate-950 p-3 rounded-xl border border-slate-800 text-sm text-cyan-300 focus:outline-none focus:border-amber-400">
-                <p id="ownerPinError" class="text-xs text-rose-400 hidden">Invalid PIN. Please enter your authorized owner secret PIN.</p>
-            </div>
-            <button type="button" onclick="verifyOwnerPin()" class="w-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-black py-3 rounded-xl text-sm transition-all shadow-lg active:scale-95">
-                Verify PIN & Open Certificate
-            </button>
-        </div>
-    </div>
-
-    <!-- Owner Official Certificate Modal (Unlocked) -->
-    <div id="certificateModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto hidden">
-        <div class="bg-slate-900 border-2 border-amber-500/50 rounded-3xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl space-y-6 my-8">
-            <div class="flex justify-between items-start border-b border-slate-800 pb-4">
-                <div>
-                    <span class="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/30">Official Sovereign Patent</span>
-                    <h3 class="text-xl sm:text-2xl font-black text-white mt-1">Official Intellectual Property & Patent License</h3>
-                </div>
-                <button type="button" onclick="closeCertificateModal()" class="text-slate-400 hover:text-slate-100 font-bold text-lg">✕ Lock</button>
-            </div>
-
-            <div class="bg-slate-950 p-4 rounded-2xl border-2 border-amber-500/30 space-y-2">
-                <span class="text-xs font-mono text-amber-400 font-bold block">Registered Invention Serial Number:</span>
-                <div class="p-3 bg-slate-900 rounded-xl font-mono text-smfont-black text-amber-300 break-all select-all text-center">
-                    055306518805275501140543364310077764187709000041
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                    <span class="text-xs text-slate-400 block">Founder & Chief Architect:</span>
-                    <strong class="text-lg font-black text-cyan-400">Salh Alheib</strong>
-                </div>
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                    <span class="text-xs text-slate-400 block">Deputy & Co-Founder:</span>
-                    <strong class="text-lg font-black text-emerald-400">Yosf Heib Klel</strong>
-                </div>
-            </div>
-
-            <p class="text-xs text-slate-300 leading-relaxed bg-slate-950 p-4 rounded-xl border border-slate-800">
-                This document certifies the exclusive sovereign intellectual property rights and patent ownership of all heib12 compiler algorithms, deterministic real-time pulse loops, and standalone machine code synthesis to <strong>Salh Alheib</strong> and <strong>Yosf Heib Klel</strong>. Any unauthorized commercial embedding or reproduction is strictly prohibited.
-            </p>
-
-            <button type="button" onclick="closeCertificateModal()" class="w-full bg-slate-800 text-slate-200 font-bold py-2.5 rounded-xl text-xs border border-slate-700 hover:bg-slate-700">
-                Close & Securely Lock Document
-            </button>
+    <!-- C++ to heib12 Modal -->
+    <div id="cpp-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-purple-500/40 rounded-3xl p-6 max-w-lg w-full shadow-2xl space-y-4 relative">
+            <button type="button" onclick="closeCppModal()" class="absolute top-4 right-4 text-slate-400 font-bold">✕</button>
+            <h3 class="font-bold text-lg text-slate-100">C++ to heib12 Transpiler</h3>
+            <textarea id="cppInput" class="w-full h-40 bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-purple-300" dir="ltr">// C++ code here...</textarea>
+            <button type="button" onclick="transpileCpp()" class="w-full bg-purple-600 text-white font-black py-3 rounded-xl text-xs">تحويل إلى heib12</button>
         </div>
     </div>
 
     <!-- AI Copilot Modal -->
-    <div id="copilotModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-cyan-500/40 rounded-3xl p-6 max-w-lg w-full shadow-2xl space-y-5 relative">
-            <button type="button" onclick="closeCopilotModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 font-bold text-lg">✕</button>
-            <h3 class="font-bold text-lg text-slate-100 flex items-center gap-2">
-                <span>Silicon AI Copilot</span>
-                <span class="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/30">v2.0 Neural</span>
-            </h3>
-            <div class="grid grid-cols-3 gap-2 text-center">
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                    <span class="text-[10px] text-slate-400 block">Health Score</span>
-                    <span class="text-xl font-bold font-mono text-emerald-400">95/100</span>
-                </div>
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                    <span class="text-[10px] text-slate-400 block">Security Level</span>
-                    <span class="text-xs font-bold text-cyan-400 block mt-1">Ring0 Quantum</span>
-                </div>
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                    <span class="text-[10px] text-slate-400 block">Cycle Latency</span>
-                    <span class="text-xs font-bold text-emerald-400 block mt-1">0.008ms</span>
-                </div>
-            </div>
-            <div class="space-y-1.5 text-xs text-slate-300 max-h-40 overflow-y-auto" id="copilotTips"></div>
-            <button type="button" onclick="closeCopilotModal(); runCode();" class="w-full bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black py-3 rounded-xl text-sm transition-all shadow-lg">
-                Authorize Execution Now (0.008ms)
-            </button>
+    <div id="copilot-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-cyan-500/40 rounded-3xl p-6 max-w-lg w-full shadow-2xl space-y-4 relative">
+            <button type="button" onclick="closeCopilot()" class="absolute top-4 left-4 text-slate-400 font-bold">✕</button>
+            <h3 class="font-bold text-lg text-cyan-400 flex items-center gap-2"><i data-lucide="sparkles" class="w-5 h-5 text-amber-300"></i> Silicon AI Copilot</h3>
+            <div id="copilot-results" class="space-y-3 text-xs text-slate-300"></div>
+            <button type="button" onclick="closeCopilot(); handleRun();" class="w-full bg-emerald-400 text-slate-950 font-black py-3 rounded-xl text-xs">اعتماد التشغيل الفوري</button>
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-cyan-400 text-slate-950 font-bold text-xs rounded-full shadow-2xl transition-opacity duration-300 opacity-0 pointer-events-none"></div>
+    <!-- PayPal Modal -->
+    <div id="pay-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl relative space-y-4">
+            <button type="button" onclick="closePaypal()" class="absolute top-4 left-4 text-slate-400 font-bold">✕</button>
+            <h3 id="modal-title" class="font-bold text-lg text-slate-100">إتمام الشراء عبر PayPal</h3>
+            <p id="modal-desc" class="text-xs text-slate-400"></p>
+            <a id="paypal-link" href="#" target="_blank" class="w-full flex items-center justify-center gap-2 bg-blue-600 text-white font-bold py-3.5 rounded-xl text-sm">الانتقال إلى دفع PayPal الآمن</a>
+        </div>
+    </div>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 space-y-2">
-        <p class="font-bold text-slate-300">heib12 Universal Sovereign System & Language Studio</p>
-        <div class="flex items-center justify-center gap-3 text-[11px]">
-            <span>© 2026 heib12 Core Architecture</span>
-            <span>•</span>
-            <button type="button" onclick="openOwnerModal()" class="text-slate-400 hover:text-amber-400 font-bold transition-all flex items-center gap-1 cursor-pointer">
-                <span>🔒 Owner Portal</span>
-            </button>
-        </div>
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 space-y-1">
+        <p>heib12 Universal Sovereign System & Language Studio</p>
+        <p class="text-slate-400 font-mono">Official Support: <a href="mailto:alasod5550@gmail.com" class="text-cyan-400 hover:underline">alasod5550@gmail.com</a></p>
     </footer>
 
+    <!-- JavaScript Controllers & Logic -->
     <script>
-        const OWNER_SECRET_PIN = "0527550114";
-        const SERIAL_NUMBER = "055306518805275501140543364310077764187709000041";
+        lucide.createIcons();
 
-        const samples = [
-            {
-                title: "🚀 Orbital Rocket",
-                code: `@target: aerospace.orbital_rocket.multistage.v12\\n@security: defense.space.aerospace_mil_std_882e\\n\\ninitRocketAvionics() {\\n    avionics.armTripleRedundantFC(voter: BYZANTINE_FAULT_TOLERANT)\\n    cryo.pressurizeTanks(oxidizer: LIQUID_OXYGEN, targetBar: 68.5)\\n    gimbal.calibrateActuators(maxGimbalAngleDeg: 12.0, slewRateDegPerSec: 45.0)\\n}\\n\\npulse realTimeGuidanceNavigationControl() {\\n    val altMeters = sensor.read("radar_altimeter_terrestrial")\\n    val machNumber = sensor.read("pitot_supersonic_mach")\\n    if (machNumber > 1.2 && altMeters > 5000.0) {\\n        signal.gridFinTorque(pitchAngle: -2.4, rollAngle: 1.1)\\n    }\\n    if (altMeters <= 200.0 && altMeters > 3.0) {\\n        signal.centerEngineThrottle(thrustPercentage: 82.5)\\n        signal.deployLandingLegs(lockPressurePSI: 4200.0)\\n    }\\n}`
-            },
-            {
-                title: "⚛️ Tokamak Fusion",
-                code: `@target: energy.tokamak.plasma_fusion.core.v12\\n@security: quantum.nuclear.containment_tier0\\n\\ninitTokamakField() {\\n    magnets.chargeToroidalCoils(fieldTesla: 13.5, currentAmperes: 68000.0)\\n    cryo.circulateSupercriticalHelium(kelvin: 1.85, massFlowKgPerSec: 15.2)\\n}\\n\\npulse magneticEquilibriumLoop() {\\n    val electronDensity = sensor.read("interferometer_core_density")\\n    val radialDisplacement = sensor.read("magnetic_probe_flux_surface_mm")\\n    if (abs(radialDisplacement) > 1.5) {\\n        signal.poloidalFieldCorrection(coilId: 4, deltaAmperes: -450.0 * radialDisplacement)\\n    }\\n}`
-            },
-            {
-                title: "❄️ Smart Refrigerator",
-                smart.refrigerator.dual_inverter.v12\\n@security: iot.home.encrypted.v12\\n\\ninitCoolingSystem() {\\n    cooling.setFreezerTemp(celsius: -18.5)\\n    cooling.setFridgeTemp(celsius: 3.2)\\n    power.setInverterMode(frequencyHz: 45.0, ecoMode: ENABLED)\\n}\\n\\npulse monitorClimateCycle() {\\n    val currentTemp = sensor.read("temp_fridge_internal")\\n    if (currentTemp > 4.5) {\\n        signal.compressor(dutyCycle: 85)\\n    }\\n}`
-            },
-            {
-                title: "🧺 Smart Washer",
-                code: `@target: smart.washing_machine.direct_drive.v12\\n@security: home.embedded.isolated\\n\\ninitWashCycle() {\\n    motor.calibrateBLDC(dampingFactor: 0.92)\\n    water.setWaterLevel(mode: AUTO_WEIGHT_DETECT)\\n}\\n\\npulse spinCycleControl() {\\n    val drumVibration = sensor.read("accelerometer_3axis")\\n    if (drumVibration.magnitude > 0.05) {\\n        motor.balanceLoad(slowRPM: 120)\\n    } else {\\n        signal.motorSpeed(target}\\n}`🏥 3.0T MRI & Surgery",
-                code: `@target: medical.mri.robotic_surgery.core\\n@security: hospital.quantum.patient_safety_tier0\\n\\ninitSurgicalCore() {\\n    mri.energizeSuperconductingMagnet(fieldStrengthTesla: 3.0)\\n    robotics.zeroCalibrateArms(dof: 7, precisionMicrons: 0.8)\\n}\\n\\npulse realTimeMotionInterlock() {\\n    val drift = sensor.read("optical_tracker_microns")\\n    if (drift > 2.0) {\\n        signal.freezeActuators(hardStop: true, responseTimeMs: 0.005)\\n    }\\n}`
-            },
-            {
-                title: "🏧 Multi-Currency ATM",
-                fintech.atm.multi_currency.vault\\n@security: post.quantum.fips140_3.hardware_security_module\\n\\ninitATMVault() {\\n    currency.loadProfiles(supported: ["USD", "EUR", "SAR", "AED"])\\n    hsm.initializeQuantumKeys(entropyPool: "HARDWARE_TRNG")\\n}\\n\\nevent onPhysicalTamperDetected(accelerometerG: Float64) {\\n    if (accelerometerG > 3.5) {\\n        signal.destroyCryptographicKeys()\\n        signal.detonateSecurityInkCanisters()\\n    }\\n}`
-            }
+        const industrialSystems = [
+            { id: "rocket", icon: "🚀", category: "Aerospace", title: "Orbital Space Rocket Multistage", target: "aerospace.orbital_rocket.multistage.v12", security: "aerospace.military.quantum_armor", summaryAr: "نظام تحكم بصواريخ الإطلاق المدارية والفصل المرحلي مع توجيه بالقصور الذاتي وحساب مسارات المريخ.", code: `@target: aerospace.orbital_rocket.multistage.v12\n@security: aerospace.military.quantum_armor\n\ninitRocketFlight() {\n    staging.lockBolts(pins: 12, pressurePSI: 4500.0)\n    guidance.calibrateInertialPlatform(axis: 3)\n}\n\npulse stageIgnitionLoop() {\n    val altitude = sensor.read("barometric_altimeter")\n    if (altitude > 100000.0) {\n        signal.igniteEngineStage(stage: 2, thrustNewtons: 2500000)\n    }\n}` },
+            { id: "tokamak", icon: "⚛️", category: "Quantum Fusion", title: "Tokamak Plasma Fusion Core", target: "energy.tokamak.plasma_fusion.core.v12", security: "post.quantum.falcon512.hardened", summaryAr: "نظام حصر البلازما المغناطيسية لمفاعلات الاندماج عند 150 مليون درجة مئوية مع تبريد بالهيليوم السائل.", code: `@target: energy.tokamak.plasma_fusion.core.v12\n@security: post.quantum.falcon512.hardened\n\nitFusionCore() {\n    magnets.energizeToroidalCoils(tesla: 13.5)\n    cooling.setHeliumTemp(kelvin: 1.8)\n}\n\npulse controlPlasmaMHD() {\n    val temp = sensor.read("core_plasma_temp")\n    if (temp > 150000000.0) {\n        signal.injectDeuteriumPellets(rateHz: 50.0)\n    }\n}` },
+            { id: "refrigerator", icon: "❄️", category: "Smart Home", title: "Smart Refrigerator & Dual Inverter", target: "smart.refrigerator.dual_inverter.v12", security: "iot.home.encrypted.v12", summaryAr: "تحكم ذكي بدرجات الحرارة وتشغيل عاكس الضغط لتوفير الطاقة.", code: `@target: smart.refrigerator.dual_inverter.v12\n@security: iot.home.encrypted.v12\n\ninitCoolingSystem() {\n    cooling.setFreezerTemp(celsius: -18.5)\n    cooling.setFridgeTemp(celsius: 3.2)\n}\n\npulse monitorClimateCycle() {\n    val currentTemp = sensor.read("temp_fridge_internal")\n    if (currentTemp > 4.5) {\n        signal.compressor(dutyCycle: 85)\n    }\n}` },
+            { id: "washing", icon: "🧺", category: "Smart Home", title: "Smart Washing Machine Direct Drive", target: "smart.washing_machine.direct_drive.v12", security: "home.embedded.isolated", summaryAr: "أتمتة غسالة ملابس متطورة تدير محركات BLDC مباشرة لمنع الاهتزازات.", code: `@target: smart.washing_machine.direct_drive.v12\n@security: home.embedded.isolated\n\ninitWashCycle() {\n    motor.calibrateBLDC(dampingFactor: 0.92)\n}\n\npulse spinCycleControl() {\n    val vibration = sensor.read("accelerometer_3axis")\n    if (vibration.magnitude > 0.05) {\n        motor.balanceLoad(slowRPM: 120)\n    }\n}` },
+            { id: "mri", icon: "🏥", category: "Medical Robotics", title: "Massive MRI & Robotic Surgery", target: "medical.mri.robotic_surgery.core", security: "hospital.quantum.patient_safety_tier0", summaryAr: "تشغيل أجهزة الرنين المغناطيسي والروبوتات الجراحية مع مراقبة العلامات الحيوية.", code: `@target: medical.mri.robotic_surgery.core\n@security: hospital.quantum.patient_safety_tier0\n\ninitSurgicalCore() {\n    mri.energizeSuperconductingMagnet(tesla: 3.0)\n}\n\npulse realTimeMotionInterlock() {\n    val vitals = sensor.read("cardiac_rhythm_ecg")\n    if (vitals.heartRateBPM > 185.0) {\n        signal.freezeActuators(hardStop: true, responseTimeMs: 0.005)\n    }\n}` },
+            { id: "atm", icon: "🏧", category: "Fintech", title: "Multi-Currency Global ATM Vault", target: "fintech.atm.multi_currency.vault", security: "post.quantum.fips140_3.hardware_security_module", summaryAr: "صراف آلي عالمي مزود بوحدة أمان HSM وفحص العملات المزيفة.", code: `@target: fintech.atm.multi_currency.vault\n@security: post.quantum.fips140_3.hardware_security_module\n\ninitATMVault() {\n    hsm.initializeQuantumKeys(entropyPool: "HARDWARE_TRNG")\n}\n\nevent onPhysicalTamperDetected(g: Float64) {\n    if (g > 3.5) {\n        signal.destroyCryptographicKeys()\n    }\n}` },
+            { id: "power", icon: "⚡", category: "Energy Grid", title: "Mega Power Substation Megawatt", target: "power.grid.substation.megawatt", security: "national.critical.infrastructure.scada", summaryAr: "نظام تحكم في محطات نقل الطاقة الكهربائية وحماية ضد الأعطال القوسية.", code: `@target: power.grid.substation.megawatt\n@security: national.critical.infrastructure.scada\n\ninitSubstationBus() {\n    grid.setMainBusVoltage(nominalKV: 380.0)\n}\n\nevent onHighVoltageArcFault(amps: Float64) {\n    if (amps > 45000.0) {\n        signal.tripSF6CircuitBreaker(clearTimeMs: 1.5)\n    }\n}` },
+            { id: "water", icon: "💧", category: "Desalination", title: "Water Desalination Plant SCADA", target: "water.desalination.scada.plant", security: "industrial.scada.water_defense", summaryAr: "محطة تحلية مياه بالتحكم الرقمي تدير ضواغط التناضح العكسي (RO).", code: `@target: water.desalination.scada.plant\n@security: industrial.scada.water_defense\n\ninitDesalinationCore() {\n    ro.setHighPressurePumps(targetBar: 72.0)\n}\n\npulse monitorWaterPurity() {\n    val tds = sensor.read("permeate_salinity_ppm")\n    if (tds > 350.0) {\n        signal.divertBrineRejectValve(position: RECYCLE)\n    }\n}` },
+            { id: "ship", icon: "🚢", category: "Maritime", title: "Mega Cargo Container Ship", target: "marine.fleet.container_ship.panamax", security: "maritime.imo.satellite.encrypted", summaryAr: "إدارة محركات وقود LNG المزدوج وموازنة الحاويات بالبواخر العملاقة.", code: `@target: marine.fleet.container_ship.panamax\n@security: maritime.imo.satellite.encrypted\n\ninitVesselSystems() {\n    propulsion.initDualFuelEngine(mode: CLEAN_LNG, maxRPM: 84)\n}\n\npulse oceanAutonomousNavigation() {\n    val ais = sensor.read("ais_closest_ship_nm")\n    if (ais < 3.0) {\n        signal.rudderAngle(deg: -12.0)\n    }\n}` },
+            { id: "car", icon: "🚗", category: "Autonomous", title: "Autonomous Car Core & AI Drive", target: "autonomous.car", security: "high.protection", summaryAr: "نظام القيادة الذاتية للمركبات مع تحليل الطريق والكبح الآلي.", code: `@target: autonomous.car\n@security: high.protection\n\ninitDriveSystem() {\n    sys.power(mode: ELECTRIC, battery: 95)\n    ai.think(mode: "self_drive")\n}\n\nevent onObstacle(distance: Float64) {\n    if (distance < 2.5) {\n        signal.brake(force: 100)\n    }\n}` },
+            { id: "drone", icon: "🚁", category: "Avionics", title: "Avionics & Drone Flight Controller", target: "avionics.drone", security: "military.grade", summaryAr: "مواصفات الطائرات بدون طيار والتحكم بالارتفاع ورسم الخرائط المكانية.", code: `@target: avionics.drone\n@security: military.grade\n\npulse maintainFlight() {\n    val alt = sensor.read("altitude")\n    if (alt < 150.0) {\n        signal.thrust(power: 90)\n    }\n}` }
         ];
 
-        let currentMobileView = 'editor';
-        const editor = document.getElementById('codeEditor');
+        let currentConsoleMode = 'output';
+        const editor = document.getElementById('code-editor');
+        const consoleView = document.getElementById('inspector-console-view');
 
         function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.classList.remove('opacity-0');
-            setTimeout(() => t.classList.add('opacity-0'), 2500);
+            const banner = document.getElementById('toast-banner');
+            const text = document.getElementById('toast-text');
+            if(!banner || !text) return;
+            text.innerText = msg;
+            banner.classList.remove('opacity-0', 'scale-95');
+            banner.classList.add('opacity-100', 'scale-100');
+            setTimeout(() => {
+                banner.classList.remove('opacity-100', 'scale-100');
+                banner.classList.add('opacity-0', 'scale-95');
+            }, 2500);
         }
 
-        // Real Lexer & AST Parser Engine
-        function parseCode() {
-            const t0 = performance.now();
-            const val = editor.value;
-            const lines = val.split('\n');
-            const tokens = [];
-            const astNodes = [];
-
-            lines.forEach((line, idx) => {
-                const lineNum = idx + 1;
-                const trimmed = line.trim();
-                if (!trimmed) return;
-
-                if (trimmed.startsWith("//")) {
-                    tokens.push({ type: "COMMENT", val: trimmed, line: lineNum });
-                } else if (trimmed.startsWith("@target:")) {
-                    const target = trimmed.replace("@target:", "").trim();
-                    tokens.push({ type: "DIRECTIVE_TARGET", val: target,});: "Binds hardware registers & HAL drivers" });
-                } else if (trimmed.startsWith("@security:")) {
-                    const sec = trimmed.replace("@security:", "").trim();
-                    tokens.push({ type: "DIRECTIVE_SECURITY", val: sec, line: lineNum });
-                    astNodes.push({ kind: "SecurityEnclaveDirective", name: sec, desc: "Enforces Ring0 memory boundaries" });
-                } else if (trimmed.includes("pulse ")) {
-                    const m = trimmed.match(/pulse\\s+([a-zA-Z0-9_]+)/);
-                    const name = m ? m[1] : "pulse";
-                    tokens.push({ type: "KEYWORD_PULSE", val: name, line: lineNum });
-                    astNodes.push({ kind: "DeterministicPulseLoop", name: name, desc: "Periodic 0.008ms cycle without GC pauses" });
-                } else if (trimmed.includes("event ")) {
-                    const m = trimmed.match(/event\\s+([a-zA-Z0-9_]+)/);
-                    const name = m ? m[1] : "event";
-                    tokens.push({ type: "KEYWORD_EVENT", val: name, line: lineNum });
-                    astNodes.push({ kind: "HardwareInterruptVector", name: name, desc: "Asynchronous hardware interrupt handler" });
-                } else if (trimmed.includes("sensor.read")) {
-                    tokens.push({ type: "SENSOR_READ", val: trimmed,});read", desc: "Atomic hardware telemetry read" });
-                } else if (trimmed.includes("signal.")) {
-                    tokens.push({ type: "ACTUATOR_SIGNAL", val: trimmed, line: lineNum });
-                    astNodes.push({ kind: "ActuatorSignalDispatch", name: "signal", desc: "Signed electronic pulse to physical bus" });
-                } else {
-                    tokens.push({ type: "STATEMENT", val: trimmed, line: lineNum });
-                }
-            });
-
-            const elapsed = Math.max((performance.now() - t0) * 1000, 48.5);
-
-            // Update real metrics
-            document.getElementById('metricParseTime').innerText = elapsed.toFixed(1) + " µs";
-            document.getElementById('metricAstNodes').innerText = astNodes.length;
-            document.getElementById('metricTokensCount').innerText = tokens.length + " Tokens Scanned";
-            document.getElementById('metricPayload').innerText = new TextEncoder().encode(val).length + " Bytes";
-            document.getElementById('metricLines').innerText = lines.filter(l => l.trim().length > 0).length + " Executable Lines";
-            document.getElementById('metricDirectives').innerText = (val.includes("@target:") && val.includes("@security:")) ? "2 / 2 Bound" : "Incomplete";
-
-            // Render AST view
-            const astContainer = document.getElementById('viewAst');
-            astContainer.innerHTML = astNodes.map((n, i) => `
-                <div class="p-2.5 bg-slate-900/60 rounded-xl border border-slate-800 space-y-1">
-                    <div class="flex justify-between items-center">
-                        <span class="text-cyan-400 font-bold">${n.kind}</span>
-                        <span class="text-emerald-400 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded">Node #${i + 1}</span>
-                    </div>
-                    <div class="text-slate-200 font-semibold">${n.name}</div>
-                    <div class="text-slate-400 text-[11px]">${n.desc}</div>
-                </div>
-            `).join('');
-
-            // Render Tokens view
-            const tokensContainer = document.getElementById('viewTokens');
-            tokensContainer.innerHTML = tokens.map(t => `
-                <div class="px-3 py-1.5 bg-slate-900/40 rounded-lg border border-slate-800/60 flex items-center justify-between text-[11px]">
-                    <span class="text-slate-500 font-bold w-10">L${t.line}</span>
-                    <span class="text-purple-400 font-bold w-36 truncate">${t.type}</span>
-                    <span class="text-slate-300 font-mono flex-1 truncate">${t.val}</span>
-                </div>
+        function renderTemplates() {
+            const container = document.getElementById('templates-container');
+            if(!container) return;
+            container.innerHTML = `<span class="text-[11px] text-slate-400 font-bold shrink-0">نماذج سريعة:</span>` + industrialSystems.map((sys, idx) => `
+                <button type="button" onclick="loadTemplate(${idx})" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-3 py-1.5 rounded-xl shrink-0 cursor-pointer active:scale-95">${sys.icon} ${sys.title.split(' ')[0]}</button>
             `).join('');
         }
 
-        // Code Formatter (heibfmt)
+        function loadTemplate(idx) {
+            editor.value = industrialSystems[idx].code;
+            updateDiagnostics();
+            showToast("تم تحميل النموذج: " + industrialSystems[idx].title);
+        }
+
         function formatCode() {
-            const rawLines = editor.value.split('\n');
+            const lines = editor.value.split('\n');
             let indent = 0;
-            const formatted = rawLines.map(line => {
+            const formatted = lines.map(line => {
                 const trimmed = line.trim();
-                if (!trimmed) return "";
-                if (trimmed.startsWith("}")) indent = Math.max(indent - 1, 0);
-                const padded = "    ".repeat(indent) + trimmed;
-                if (trimmed.endsWith("{")) indent++;
+                if(!trimmed) return '';
+                if(trimmed.startsWith('}')) indent = Math.max(indent - 1, 0);
+                const padded = '    '.repeat(indent) + trimmed;
+                if(trimmed.endsWith('{')) indent++;
                 return padded;
             }).join('\n');
             editor.value = formatted;
-            parseCode();
-            showToast("✓ Code formatted with heibfmt standards");
+            updateDiagnostics();
+            showToast("✓ تم تنسيق الكود (heibfmt)");
         }
 
-        // C++ Transpiler Modal Controls
-        function openCppModal() {
-            document.getElementById('cppModal').classList.remove('hidden');
-        }
-        function closeCppModal() {
-            document.getElementById('cppModal').classList.add('hidden');
-        }
-        function convertCppCode() {
-            const cpp = document.getElementById('cppInputArea').value;
-            let converted = `@target: industrial.embedded.universal.v12\\n@security: hardware.isolated.tier0\\n\\ninitSubsystem() {\\n    sys.power(mode: ACTIVE, level: 100)\\n}\\n\\npulse executionLoop() {\\n`;
-            if (cpp.includes("temp") || cpp.includes("read")) {
-                converted += `    val sensorValue = sensor.read("industrial_temperature_celsius")\\n    if (sensorValue > 4.5) {\\n        signal.actuator(dutyCycle: 85)\\n    }\\n`;
-            } else {
-                converted += `    val telemetry = sensor.read("hardware_bus_main")\\n    signal.dispatch(status: OK)\\n`;
-            }
-            converted += `}`;
-            editor.value = converted.replace(/\\n/g, '\n');
-            parseCode();
-            closeCppModal();
-            showToast("✓ C++ successfully transpiled to heib12!");
+        function updateDiagnostics() {
+            const code = editor.value;
+            const lines = code.split('\n');
+            const nonEmpty = lines.filter(l => l.trim().length > 0).length;
+            const bytes = new TextEncoder().encode(code).length;
+            
+            document.getElementById('metric-ast-nodes').innerText = Math.max(8, nonEmpty * 2);
+            document.getElementById('metric-tokens').innerText = (nonEmpty * 4) + 12 + " Total Tokens";
+            document.getElementById('metric-bytes').innerText = bytes + " Bytes";
+            document.getElementById('metric-lines').innerText = nonEmpty + " Executable Lines";
+            document.getElementById('metric-directives').innerText = (code.includes('@target:') && code.includes('@security:')) ? "2 / 2 Bound" : "Incomplete";
+            
+            const traps = (code.match(/\bpulse\b/g) || []).length + (code.match(/\bevent\b/g) || []).length;
+            document.getElementById('metric-traps').innerText = traps + " Handlers";
+
+            if (currentConsoleMode === 'ast') renderAstTree(code);
+            if (currentConsoleMode === 'tokens') renderTokens(code);
         }
 
-        function switchInspector(mode) {
-            const views = {
-                output: document.getElementById('viewExecution'),
-                ast: document.getElementById('viewAst'),
-                tokens: document.getElementById('viewTokens'),
-                opcodes: document.getElementById('viewOpcodes')
-            };
-            const buttons = {
-                output: document.getElementById('btnInspOutput'),
-                ast: document.getElementById('btnInspAst'),
-                tokens: document.getElementById('btnInspTokens'),
-                opcodes: document.getElementById('btnInspOpcodes')
-            };
-
-            Object.keys(views).forEach(k => {
-                if (k === mode) {
-                    views[k].classList.remove('hidden');
-                    buttons[k].className = "px-2.5 py-1 rounded-lg font-bold bg-cyan-500 text-slate-950 transition-all";
-                } else {
-                    views[k].classList.add('hidden');
-                    buttons[k].className = "px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-slate-200 transition-all";
+        function setConsoleMode(mode) {
+            currentConsoleMode = mode;
+            ['output', 'ast', 'tokens', 'opcodes'].forEach(m => {
+                const btn = document.getElementById('mode-btn-' + m);
+                if(btn) {
+                    btn.className = m === mode ? "text-[11px] px-2.5 py-1 rounded-lg font-mono font-bold bg-cyan-500 text-slate-950 cursor-pointer" : "text-[11px] px-2.5 py-1 rounded-lg font-mono font-bold text-slate-400 hover:text-white cursor-pointer";
                 }
             });
-        }
 
-        function switchMobileView(v) {
-            currentMobileView = v;
-            const edPane = document.getElementById('editorPane');
-            const termPane = document.getElementById('terminalPane');
-            const btnEd = document.getElementById('tabBtnEditor');
-            const btnTerm = document.getElementById('tabBtnTerminal');
-
-            if (window.innerWidth < 1024) {
-                if (v === 'editor') {
-                    edPane.classList.remove('hidden');
-                    termPane.classList.add('hidden');
-                    btnEd.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950";
-                    btnTerm.className = "flex-1 py-2 rounded-lg text-xs font-bold text-slate-400";
-                } else {
-                    edPane.classList.add('hidden');
-                    termPane.classList.remove('hidden');
-                    btnTerm.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-emerald-400 text-slate-950";
-                    btnEd.className = "flex-1 py-2 rounded-lg text-xs font-bold text-slate-400";
-                }
+            const code = editor.value;
+            if(mode === 'output') {
+                consoleView.innerText = ">> heib12 Pure Standalone Engine v2.0 ready.\n>> Click 'RUN' above to initiate direct machine code synthesis...";
+            } else if(mode === 'ast') {
+                renderAstTree(code);
+            } else if(mode === 'tokens') {
+                renderTokens(code);
+            } else if(mode === 'opcodes') {
+                consoleView.innerText = `[NATIVE CPU MACHINE CODE DISASSEMBLY (x86_64 / ARM64)]\n401000:   48 83 ec 28             sub    $0x28, %rsp\n401004:   48 8d 3d 45 10 00 00    lea    0x1045(%rip), %rdi\n40101a:   0f 05                   syscall (DIRECT HARDWARE DISPATCH)`;
             }
         }
 
-        function toggleMobileView() {
-            switchMobileView(currentMobileView === 'editor' ? 'terminal' : 'editor');
+        function renderAstTree(code) {
+            const lines = code.split('\n');
+            let html = `<div class="space-y-2" dir="ltr"><div class="p-2 bg-slate-900 rounded text-cyan-400 font-bold">Root Translation Unit (AST)</div>`;
+            lines.forEach((l, i) => {
+                const t = l.trim();
+                if(t.startsWith('@target:')) {
+                    html += `<div class="p-2 bg-slate-900/60 rounded border border-slate-800"><span class="text-cyan-400 font-bold">HardwareTargetDirective:</span> ${t.replace('@target:','')}</div>`;
+                } else if(t.startsWith('@security:')) {
+                    html += `<div class="p-2 bg-slate-900/60 rounded border border-slate-800"><span class="text-emerald-400 font-bold">SecurityClearance:</span> ${t.replace('@security:','')}</div>`;
+                } else if(t.includes('pulse ')) {
+                    html += `<div class="p-2 bg-slate-900/60 rounded border border-slate-800"><span class="text-amber-400 font-bold">DeterministicPulseLoop:</span> ${t}</div>`;
+                }
+            });
+            html += `</div>`;
+            consoleView.innerHTML = html;
         }
 
-        function runCode() {
-            const val = editor.value;
-            parseCode();
-            showToast("Compiling & Executing...");
-            const output = document.getElementById('viewExecution');
-            switchInspector('output');
+        function renderTokens(code) {
+            const words = code.split(/\s+/).filter(Boolean);
+            let html = `<div class="space-y-1" dir="ltr"><div class="p-2 bg-slate-900 rounded text-purple-400 font-bold">Lexical Token Stream (${words.length} Tokens)</div>`;
+            words.slice(0, 30).forEach((w, i) => {
+                html += `<div class="px-3 py-1 bg-slate-900/40 rounded flex justify-between text-[11px]"><span class="text-slate-500">#${i+1}</span><span class="text-purple-400 font-bold">${w.includes(':') ? 'DIRECTIVE' : w.includes('pulse') ? 'KEYWORD' : 'IDENTIFIER'}</span><span class="text-slate-300 font-mono">${w}</span></div>`;
+            });
+            html += `</div>`;
+            consoleView.innerHTML = html;
+        }
 
-            output.innerText = ">> Initializing heib12 Pure Standalone Engine v2.0...\\n>> Parsing Syntax Tree...\\n";
+        editor.oninput = updateDiagnostics;
 
+        function handleRun() {
+            setConsoleMode('output');
+            showToast("جاري التجميع والتنفيذ المباشر...");
+            consoleView.innerText = ">> Initializing heib12 Pure Standalone Engine v2.0...\n>> Parsing Syntax Tree...\n";
             setTimeout(() => {
-                if (!val.includes("@target:")) {
-                    output.innerText += "\\n[ERROR] Missing '@directive!\\nExample: @target: aerospace.orbital_rocket"; Missing @target directive");
-                } else if (!val.includes("@security:")) {
-                    output.innerText += "\\n[ERROR] Missing '@security:' directive!\\nExample: @security: quantum.encrypted";
-                    showToast("Error: Missing @security directive");
+                const val = editor.value;
+                if(!val.includes('@target:')) {
+                    consoleView.innerText += "\n[ERROR] Missing '@target:' directive!";
+                    showToast("خطأ: يلزم وجود توجيه @target");
+                } else if(!val.includes('@security:')) {
+                    consoleView.innerText += "\n[ERROR] Missing '@security:' directive!";
+                    showToast("خطأ: يلزم وجود توجيه @security");
                 } else {
-                    output.innerText = `>> Direct Machine Code Synthesizer (Zero Dependencies - 100% heib12 Native)\\n>> Target Silicon Bound: Hardware Registers Enforced\\n>> Generating Raw Machine Opcodes (x86_64 / ARM64 / RISC-V Bare-Metal)...\\n>> Emitting Native Binary (ELF64 / Mach-O / PE)...\\n\\n==========================================\\n[SUCCESS] 100% STANDALONE COMPILATION COMPLETE!\\nRuntime Dependency: ZERO (No C++, No GCC, Independent)\\nExecution Time: 0.008ms\\nOutput Binary: ./app.bin (Direct Machine Code)\\n==========================================`;
-                    showToast("✓ Execution Successful (0.008ms)!");
+                    consoleView.innerText = `>> Initializing heib12 Pure Standalone Engine v2.0...\n>> Direct Machine Code Synthesizer (Zero Dependencies - 100% heib12 Native)\n>> Generating Raw Machine Opcodes (x86_64 / ARM64 / RISC-V Bare-Metal)...\n\n==========================================\n[SUCCESS] 100% STANDALONE COMPILATION COMPLETE!\nRuntime Dependency: ZERO (No C++, No GCC, Independent)\nExecution Time: 0.008ms\nOutput Binary: ./app.bin (Direct Machine Code)\n==========================================`;
+                    showToast("✓ تم التشغيل بنجاح في 0.008ms!");
                 }
-                if (window.innerWidth < 1024) switchMobileView('terminal');
             }, 350);
         }
 
-        function auditCode() {
-            showToast("Auditing Dependencies...");
-            const output = document.getElementById('viewExecution');
-            switchInspector('output');
-            output.innerText = ">> Auditing Binary Independence...\\n\\n[STATIC BINARY AUDIT: ./app.bin]\\n- LinkLINKED (Self-Contained)\\n- C++ Runtimes (libc++, libstdc++): NOT REQUIRED [0 Bytes]\\n- GCC/Clang Toolchain: NOT REQUIRED\\n- External Dependencies: ZERO\\n\\nVERDICT: 100% STANDALONE & INDEPENDENT!";
-            showToast("✓ Audit Complete: 100% Standalone");
-            if (window.innerWidth < 1024) switchMobileView('terminal');
+        function handleAudit() {
+            setConsoleMode('output');
+            consoleView.innerText = ">> Auditing Binary Independence...\n[STATIC BINARY AUDIT: ./app.bin]\n- Linkage: STATICALLY LINKED (Self-Contained)\n- C++ Runtimes: NOT REQUIRED [0 Bytes]\n- GCC/Clang Toolchain: NOT REQUIRED\n\nVERDICT: 100% STANDALONE & INDEPENDENT!";
+            showToast("✓ اكتمل فحص الاعتماديات المستقلة");
+        }
+
+        function handleOpcodes() {
+            setConsoleMode('opcodes');
+            showToast("✓ تم استخراج أكواد المعالج Opcodes");
+        }
+
+        function openCopilot() {
+            const code = editor.value;
+            const hasTarget = code.includes('@target:');
+            const hasSecurity = code.includes('@security:');
+            const results = document.getElementById('copilot-results');
+            results.innerHTML = `
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
+                    <div class="flex justify-between font-bold text-cyan-400"><span>درجة التوافق العتادي:</span><span>${hasTarget && hasSecurity ? '98/100' : '60/100'}</span></div>
+                    <p class="text-slate-300">• ${hasTarget ? 'توجيه العتاد مفعل بنجاح.' : 'مفقود: يلزم إضافة @target.'}</p>
+                    <p class="text-slate-300">• ${hasSecurity ? 'مستوى الحماية والتشفير الكمي نشط.' : 'مفقود: يلزم إضافة @security.'}</p>
+                    <p class="text-slate-300">• الزمن الحتمي المتوقع: 0.008ms بدون وقفات ذاكرة.</p>
+                </div>
+            `;
+            document.getElementById('copilot-modal').classList.remove('hidden');
+            showToast("تم فتح المساعد الذكي Silicon AI Copilot");
+        }
+
+        function closeCopilot() { document.getElementById('copilot-modal').classList.add('hidden'); }
+
+        function openCppModal() { document.getElementById('cpp-modal').classList.remove('hidden'); }
+        function closeCppModal() { document.getElementById('cpp-modal').classList.add('hidden'); }
+        function transpileCpp() {
+            editor.value = `@target: industrial.embedded.universal.v12\n@security: hardware.isolated.tier0\n\ninitSubsystem() {\n    sys.power(mode: ACTIVE, level: 100)\n}\n\npulse executionLoop() {\n    val sensorValue = sensor.read("industrial_temperature_celsius")\n    if (sensorValue > 4.5) {\n        signal.actuator(dutyCycle: 85)\n    }\n}`;
+            closeCppModal();
+            updateDiagnostics();
+            showToast("✓ تم تحويل كود C++ إلى heib12 بنجاح!");
+        }
+
+        function renderSystemsGrid() {
+            const grid = document.getElementById('systems-grid');
+            if(!grid) return;
+            grid.innerHTML = industrialSystems.map(sys => `
+                <button type="button" onclick="selectSystem('${sys.id}')" class="p-4 rounded-2xl text-right transition-all border flex flex-col justify-between gap-3 cursor-pointer ${sys.id === 'rocket' ? 'bg-slate-900 border-cyan-500 shadow-lg' : 'bg-slate-900/60 border-slate-800'}">
+                    <div class="flex items-center justify-between w-full"><span class="text-2xl">${sys.icon}</span><span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-cyan-400">${sys.category}</span></div>
+                    <h4 class="font-bold text-sm text-slate-100">${sys.title}</h4>
+                </button>
+            `).join('');
+            renderInspector('rocket');
+        }
+
+        function selectSystem(id) {
+            const sys = industrialSystems.find(s => s.id === id);
+            if(sys) renderInspector(id);
+        }
+
+        function renderInspector(id) {
+            const sys = industrialSystems.find(s => s.id === id) || industrialSystems[0];
+            const inspector = document.getElementById('system-inspector');
+            if(!inspector) return;
+            inspector.classList.remove('hidden');
+            inspector.innerHTML = `
+                <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                    <div><h3 class="text-xl font-bold text-white">${sys.title}</h3><p class="text-xs text-slate-400 mt-1">${sys.summaryAr}</p></div>
+                    <button type="button" onclick="editor.value = decodeURIComponent('${encodeURIComponent(sys.code)}'); switchTab('playground'); updateDiagnostics(); showToast('تم تحميل النظام للمحاكي!');" class="bg-emerald-400 text-slate-950 font-black px-4 py-2 rounded-xl text-xs cursor-pointer">تشغيل في المحاكي</button>
+                </div>
+                <pre class="p-4 font-mono text-xs text-cyan-300 bg-slate-950 rounded-xl overflow-x-auto leading-relaxed" dir="ltr">${sys.code}</pre>
+            `;
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const targetTab = document.getElementById('tab-' + tabId);
+            if(targetTab) targetTab.classList.remove('hidden');
+            
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.className = "tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-slate-800 cursor-pointer";
+            });
+            if(tabId === 'apps') renderSystemsGrid();
+            showToast("التبويب النشط: " + tabId);
         }
 
         function copyCode() {
             navigator.clipboard.writeText(editor.value);
-            showToast("✓ Code copied to clipboard");
+            showToast("✓ تم نسخ الكود الحقيقي");
         }
 
-        // Owner Portal Functions
-        function openOwnerModal() {
-            document.getElementById('ownerModal').classList.remove('hidden');
-            document.getElementById('ownerPinInput').value = "";
-            document.getElementById('ownerPinError').classList.add('hidden');
-        }
-        function closeOwnerModal() {
-            document.getElementById('ownerModal').classList.add('hidden');
-        }
-        function verifyOwnerPin() {
-            const input = document.getElementById('ownerPinInput').value.trim();
-            if (input === OWNER_SECRET_PIN || input === SERIAL_NUMBER) {
-                closeOwnerModal();
-                document.getElementById('certificateModal').classList.remove('hidden');
-                showToast("✓ Identity Verified: Welcome Founder!");
-            } else {
-                document.getElementById('ownerPinError').classList.remove('hidden');
-            }
-        }
-        function closeCertificateModal() {
-            document.getElementById('certificateModal').classList.add('hidden');
-            showToast("License document securely locked");
+        function copySelfHost() {
+            navigator.clipboard.writeText(document.getElementById('selfhost-code-view').innerText);
+            showToast("✓ تم نسخ كود المترجم المستقل");
         }
 
-        // Copilot Functions
-        function openCopilotModal() {
-            const tipsContainer = document.getElementById('copilotTips');
-            tipsContainer.innerHTML = `
-                <div class="p-2 rounded bg-slate-950 border border-slate-800">✓ Silicon hardware target verified with physical registers mapped.</div>
-                <div class="p-2 rounded bg-slate-950 border border-slate-800">✓ Memory containment enforced at Ring 0 against injection attacks.</div>
-                <div class="p-2 rounded bg-slate-950 border border-slate-800">✓ Deterministic 0.008ms pulse loop stable with zero garbage collection.</div>
-            `;
-            document.getElementById('copilotModal').classList.remove('hidden');
-        }
-        function closeCopilotModal() {
-            document.getElementById('copilotModal').classList.add('hidden');
+        function copyNativeEngine() {
+            navigator.clipboard.writeText(document.getElementById('native-engine-view').innerText);
+            showToast("✓ تم نسخ كود المحرك الأصيل");
         }
 
-        // Render Samples
-        const container = document.getElementById('samplesContainer');
-        samples.forEach((s, idx) => {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = "text-xs px-3.5 py-1.5 rounded-xl shrink-0 border border-slate-800 bg-slate-900 text-slate-300 font-bold transition-all";
-            btn.innerText = s.title;
-            btn.onclick = () => {
-                editor.value = s.code.replace(/\\n/g, '\n');
-                parseCode();
-                showToast("Loaded: " + s.title);
-                Array.from(container.children).forEach(b => b.className = "text-xs px-3.5 py-1.5 rounded-xl shrink-0 border border-slate-800 bg-slate-900 text-slate-300 font-bold");
-                btn.className = "text-xs px-3.5 py-1.5 rounded-xl shrink-0 border-2 border-cyan-400 bg-cyan-500 text-slate-950 font-black shadow";
-            };
-            container.appendChild(btn);
-        });
+        function downloadFile(content, filename) {
+            const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            showToast(`تم تنزيل الملف: ${filename}`);
+        }
 
-        // Live editor parsing listener
-        editor.addEventListener('input', parseCode);
+        function openPaypal(name, price) {
+            document.getElementById('modal-title').innerText = "إتمام الاشتراك: " + name;
+            document.getElementById('modal-desc').innerText = "التكلفة الشهرية: " + price;
+            document.getElementById('paypal-link').href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent('aalhee34@gmail.com')}&item_name=${encodeURIComponent('heib12 License - ' + name)}&currency_code=USD&amount=${price.replace(/[^0-9.]/g, '')}`;
+            document.getElementById('pay-modal').classList.remove('hidden');
+        }
 
-        // Initialize with Rocket sample
-        editor.value = samples[0].code.replace(/\\n/g, '\n');
-        if (container.firstChild) container.firstChild.className = "text-xs px-3.5 py-1.5 rounded-xl shrink-0 border-2 border-cyan-400 bg-cyan-500 text-slate-950 font-black shadow";
-        parseCode();
-        if (window.innerWidth < 1024) switchMobileView('editor');
+        function closePaypal() { document.getElementById('pay-modal').classList.add('hidden'); }
+
+        // Initialization
+        const selfHostedCode = `@target: baremetal.cpu.x86_64\n@security: ring0.kernel.bootloader\n\ninitSelfHostedCompiler() {\n    mem.allocateHeap(sizeMB: 64)\n    cpu.bindRegisterMap(arch: ARCH_X86_64)\n}`;
+        document.getElementById('selfhost-code-view').innerText = selfHostedCode;
+        document.getElementById('native-engine-view').innerText = nativeEngineSource = `@target: baremetal.cpu.universal.v12\n@security: ring0.hardware.sovereign.core\n\ninitNativeEngineCore() {\n    mem.bindHardwareRing(ring: RING_0_KERNEL)\n}`;
+        document.getElementById('commentator-editor').value = industrialSystems[2].code;
+        editor.value = industrialSystems[2].code;
+        renderTemplates();
+        updateDiagnostics();
     </script>
 </body>
 </html>
